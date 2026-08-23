@@ -1,0 +1,56 @@
+<aside class="sidebar">
+  <div class="sidebar__header">
+    <a routerLink="/dashboard" class="brand" aria-label="RetailOps Dashboard">
+      <span class="brand__logo">
+        <i class="pi pi-chart-line"></i>
+      </span>
+
+      <span class="brand__content">
+        <strong class="brand__name"> Retail<span>Ops</span> </strong>
+
+        <small class="brand__subtitle">
+          {{ 'APP.SUBTITLE' | translate }}
+        </small>
+      </span>
+    </a>
+  </div>
+
+  <nav class="sidebar__nav">
+    @for (section of navSections; track section.label) {
+      <div class="nav-section">
+        <p class="nav-section__title">
+          {{ section.label | translate }}
+        </p>
+
+        <div class="nav-section__items">
+          @for (item of section.items; track item.route) {
+            <a class="nav-item" [routerLink]="item.route" routerLinkActive="nav-item--active">
+              <span class="nav-item__icon">
+                <i [class]="item.icon"></i>
+              </span>
+
+              <span class="nav-item__label">
+                {{ item.label | translate }}
+              </span>
+            </a>
+          }
+        </div>
+      </div>
+    }
+  </nav>
+
+  <div class="sidebar__footer">
+    <div class="user-card">
+      <div class="user-card__avatar">MM</div>
+
+      <div class="user-card__info">
+        <strong>Mahmoud Mohamed</strong>
+        <span>{{ 'USER.ADMINISTRATOR' | translate }}</span>
+      </div>
+
+      <button class="user-card__menu" type="button" aria-label="User menu">
+        <i class="pi pi-ellipsis-v"></i>
+      </button>
+    </div>
+  </div>
+</aside>

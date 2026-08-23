@@ -1,0 +1,88 @@
+<header class="topbar">
+  <div class="topbar__start">
+    <button
+      type="button"
+      class="topbar__menu-btn"
+      aria-label="Open navigation"
+      (click)="onMenuToggle()"
+    >
+      <i class="pi pi-bars"></i>
+    </button>
+
+    <div class="topbar__title">
+      <h2>
+        {{ titleKey() | translate }}
+      </h2>
+
+      <span>
+        {{ subtitleKey() | translate }}
+      </span>
+    </div>
+  </div>
+
+  <div class="topbar__actions">
+    <div class="topbar__search">
+      <i class="pi pi-search"></i>
+
+      <input
+        type="search"
+        [placeholder]="'TOPBAR.SEARCH' | translate"
+        [attr.aria-label]="'TOPBAR.SEARCH' | translate"
+      />
+
+      <span class="search-shortcut"> Ctrl K </span>
+    </div>
+
+    <button
+      type="button"
+      class="topbar-action"
+      aria-label="Change language"
+      (click)="languageService.toggleLanguage()"
+    >
+      <i class="pi pi-globe"></i>
+
+      <span class="topbar-action__text">
+        {{ languageService.currentLanguage() === 'en' ? 'AR' : 'EN' }}
+      </span>
+    </button>
+
+    <button
+      type="button"
+      class="topbar-action topbar-action--icon"
+      [attr.aria-label]="
+        themeService.isDark()
+          ? ('TOPBAR.SWITCH_TO_LIGHT' | translate)
+          : ('TOPBAR.SWITCH_TO_DARK' | translate)
+      "
+      (click)="themeService.toggleTheme()"
+    >
+      <i
+        class="pi"
+        [class.pi-sun]="themeService.isDark()"
+        [class.pi-moon]="!themeService.isDark()"
+      ></i>
+    </button>
+
+    <button
+      type="button"
+      class="topbar-action topbar-action--icon notification-button"
+      aria-label="Notifications"
+    >
+      <i class="pi pi-bell"></i>
+      <span class="notification-dot"></span>
+    </button>
+
+    <div class="topbar__divider"></div>
+
+    <button type="button" class="profile-button" aria-label="Open profile menu">
+      <span class="profile-button__avatar"> MM </span>
+
+      <span class="profile-button__info">
+        <strong>Mahmoud</strong>
+        <small>Admin</small>
+      </span>
+
+      <i class="pi pi-angle-down profile-button__arrow"></i>
+    </button>
+  </div>
+</header>

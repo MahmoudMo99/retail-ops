@@ -1,0 +1,126 @@
+<div class="product-details">
+  <div class="product-gallery">
+    <div class="product-gallery__main">
+      <img [src]="product().thumbnail" [alt]="product().title" />
+    </div>
+  </div>
+
+  <div class="product-details__content">
+    <div class="product-details__heading">
+      <div>
+        <span class="product-category">
+          {{ product().category }}
+        </span>
+
+        <h2>
+          {{ product().title }}
+        </h2>
+
+        @if (product().brand) {
+          <p class="product-brand">
+            {{ product().brand }}
+          </p>
+        }
+      </div>
+
+      <div class="product-price">
+        {{ formatCurrency(product().price) }}
+      </div>
+    </div>
+
+    <p class="product-description">
+      {{ product().description }}
+    </p>
+
+    <div class="product-stats">
+      <div class="product-stat">
+        <span>
+          {{ 'PRODUCTS.DETAILS.RATING' | translate }}
+        </span>
+
+        <strong>
+          <i class="pi pi-star-fill"></i>
+          {{ product().rating }}
+        </strong>
+      </div>
+
+      <div class="product-stat">
+        <span>
+          {{ 'PRODUCTS.DETAILS.STOCK' | translate }}
+        </span>
+
+        <strong>
+          {{ product().stock }}
+        </strong>
+      </div>
+
+      <div class="product-stat">
+        <span>
+          {{ 'PRODUCTS.DETAILS.DISCOUNT' | translate }}
+        </span>
+
+        <strong> {{ product().discountPercentage }}% </strong>
+      </div>
+
+      @if (product().sku) {
+        <div class="product-stat">
+          <span>
+            {{ 'PRODUCTS.DETAILS.SKU' | translate }}
+          </span>
+
+          <strong>
+            {{ product().sku }}
+          </strong>
+        </div>
+      }
+    </div>
+
+    <div class="product-info-grid">
+      <div class="product-info">
+        <span>
+          {{ 'PRODUCTS.DETAILS.AVAILABILITY' | translate }}
+        </span>
+
+        <strong>
+          {{ product().availabilityStatus }}
+        </strong>
+      </div>
+
+      @if (product().shippingInformation) {
+        <div class="product-info">
+          <span>
+            {{ 'PRODUCTS.DETAILS.SHIPPING' | translate }}
+          </span>
+
+          <strong>
+            {{ product().shippingInformation }}
+          </strong>
+        </div>
+      }
+
+      @if (product().warrantyInformation) {
+        <div class="product-info">
+          <span>
+            {{ 'PRODUCTS.DETAILS.WARRANTY' | translate }}
+          </span>
+
+          <strong>
+            {{ product().warrantyInformation }}
+          </strong>
+        </div>
+      }
+
+      @if (product().returnPolicy) {
+        <div class="product-info">
+          <span>
+            {{ 'PRODUCTS.DETAILS.RETURN_POLICY' | translate }}
+          </span>
+
+          <strong>
+            {{ product().returnPolicy }}
+          </strong>
+        </div>
+      }
+    </div>
+  </div>
+</div>

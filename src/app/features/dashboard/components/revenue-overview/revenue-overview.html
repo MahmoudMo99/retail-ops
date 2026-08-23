@@ -1,0 +1,26 @@
+<article class="analytics-card revenue-card">
+  <header class="analytics-card__header">
+    <div>
+      <h2>
+        {{ 'DASHBOARD.REVENUE.TITLE' | translate }}
+      </h2>
+
+      <p>
+        {{ 'DASHBOARD.REVENUE.SUBTITLE' | translate }}
+      </p>
+    </div>
+
+    <div class="revenue-summary">
+      <strong>$124,560</strong>
+
+      <span>
+        <i class="pi pi-arrow-up-right"></i>
+        12.5%
+      </span>
+    </div>
+  </header>
+
+  <div class="revenue-chart">
+    <canvas #chartCanvas></canvas>
+  </div>
+</article>

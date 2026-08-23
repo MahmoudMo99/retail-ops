@@ -1,0 +1,51 @@
+<article class="analytics-card">
+  <header class="analytics-card__header">
+    <div>
+      <h2>
+        {{ 'DASHBOARD.SALES.TITLE' | translate }}
+      </h2>
+
+      <p>
+        {{ 'DASHBOARD.SALES.SUBTITLE' | translate }}
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="analytics-card__menu"
+      [attr.aria-label]="'DASHBOARD.KPI.MORE_OPTIONS' | translate"
+    >
+      <i class="pi pi-ellipsis-h"></i>
+    </button>
+  </header>
+
+  <div class="sales-chart-wrapper">
+    <div class="sales-chart">
+      <canvas #chartCanvas></canvas>
+
+      <div class="sales-chart__center">
+        <strong>$84.3K</strong>
+
+        <span>
+          {{ 'DASHBOARD.SALES.TOTAL' | translate }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sales-legend">
+    @for (item of categories; track item.label) {
+      <div class="sales-legend__item">
+        <div class="sales-legend__label">
+          <span class="sales-legend__dot" [style.background]="getCategoryColor(item.token)"></span>
+
+          <span>
+            {{ item.label | translate }}
+          </span>
+        </div>
+
+        <strong> {{ item.value }}% </strong>
+      </div>
+    }
+  </div>
+</article>

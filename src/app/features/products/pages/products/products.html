@@ -1,0 +1,371 @@
+<section class="products-page">
+  <header class="products-header">
+    <div class="products-header__content">
+      <span class="products-header__eyebrow">
+        {{ 'PRODUCTS.MANAGEMENT' | translate }}
+      </span>
+
+      <h1>
+        {{ 'PRODUCTS.TITLE' | translate }}
+      </h1>
+
+      <p>
+        {{ 'PRODUCTS.SUBTITLE' | translate }}
+      </p>
+    </div>
+
+    <button type="button" class="add-product-btn" (click)="openAddProduct()">
+      <i class="pi pi-plus"></i>
+
+      <span>
+        {{ 'PRODUCTS.ADD_PRODUCT' | translate }}
+      </span>
+    </button>
+  </header>
+
+  <div class="products-card">
+    <div class="products-toolbar">
+      <div class="products-search">
+        <i class="pi pi-search"></i>
+
+        <input
+          type="search"
+          [value]="searchTerm()"
+          [placeholder]="'PRODUCTS.SEARCH' | translate"
+          [attr.aria-label]="'PRODUCTS.SEARCH' | translate"
+          (input)="onSearch($event)"
+        />
+      </div>
+
+      <div class="products-toolbar__end">
+        <span class="products-count">
+          {{ total() }}
+          {{ 'PRODUCTS.PRODUCTS_COUNT' | translate }}
+        </span>
+
+        <button
+          type="button"
+          class="toolbar-button"
+          [class.toolbar-button--active]="filtersOpen()"
+          (click)="toggleFilters()"
+        >
+          <i class="pi pi-filter"></i>
+
+          <span>
+            {{ 'PRODUCTS.FILTERS' | translate }}
+          </span>
+
+          @if (selectedCategory()) {
+            <span class="filter-indicator"></span>
+          }
+        </button>
+      </div>
+    </div>
+
+    @if (filtersOpen()) {
+      <div class="products-filters">
+        <div class="filter-field">
+          <label for="product-category">
+            {{ 'PRODUCTS.CATEGORY' | translate }}
+          </label>
+
+          <div class="filter-select-wrapper">
+            <select
+              id="product-category"
+              class="filter-select"
+              [value]="selectedCategory()"
+              (change)="onCategoryChange($event)"
+            >
+              <option value="">
+                {{ 'PRODUCTS.ALL_CATEGORIES' | translate }}
+              </option>
+
+              @for (category of categories(); track category.slug) {
+                <option [value]="category.slug">
+                  {{ category.name }}
+                </option>
+              }
+            </select>
+
+            <i class="pi pi-angle-down"></i>
+          </div>
+        </div>
+
+        <div class="products-filters__actions">
+          <button
+            type="button"
+            class="clear-filters-btn"
+            [disabled]="!selectedCategory()"
+            (click)="clearFilters()"
+          >
+            <i class="pi pi-times"></i>
+
+            {{ 'PRODUCTS.CLEAR_FILTERS' | translate }}
+          </button>
+        </div>
+      </div>
+    }
+
+    @if (error()) {
+      <div class="products-error">
+        <span class="products-error__icon">
+          <i class="pi pi-exclamation-triangle"></i>
+        </span>
+
+        <div>
+          <strong>
+            {{ 'PRODUCTS.ERROR_TITLE' | translate }}
+          </strong>
+
+          <p>
+            {{ 'PRODUCTS.ERROR_MESSAGE' | translate }}
+          </p>
+        </div>
+      </div>
+    } @else {
+      <div class="products-table-wrapper">
+        <p-table
+          [value]="products()"
+          [lazy]="true"
+          [paginator]="true"
+          [rows]="rows()"
+          [first]="first()"
+          [totalRecords]="total()"
+          [loading]="loading()"
+          [rowsPerPageOptions]="[10, 20, 30]"
+          [showCurrentPageReport]="true"
+          [currentPageReportTemplate]="'PRODUCTS.PAGE_REPORT' | translate"
+          [tableStyle]="{
+            'min-width': '980px',
+          }"
+          (onLazyLoad)="onLazyLoad($event)"
+        >
+          <ng-template #header>
+            <tr>
+              <th>
+                {{ 'PRODUCTS.PRODUCT' | translate }}
+              </th>
+
+              <th pSortableColumn="category">
+                <div class="sortable-header">
+                  {{ 'PRODUCTS.CATEGORY' | translate }}
+                  <p-sort-icon field="category" />
+                </div>
+              </th>
+
+              <th pSortableColumn="price">
+                <div class="sortable-header">
+                  {{ 'PRODUCTS.PRICE' | translate }}
+                  <p-sort-icon field="price" />
+                </div>
+              </th>
+
+              <th pSortableColumn="rating">
+                <div class="sortable-header">
+                  {{ 'PRODUCTS.RATING' | translate }}
+                  <p-sort-icon field="rating" />
+                </div>
+              </th>
+
+              <th pSortableColumn="stock">
+                <div class="sortable-header">
+                  {{ 'PRODUCTS.STOCK' | translate }}
+                  <p-sort-icon field="stock" />
+                </div>
+              </th>
+
+              <th>
+                {{ 'PRODUCTS.STATUS_LABEL' | translate }}
+              </th>
+
+              <th class="actions-column">
+                {{ 'PRODUCTS.ACTIONS' | translate }}
+              </th>
+            </tr>
+          </ng-template>
+
+          <ng-template #body let-product>
+            <tr>
+              <td>
+                <div class="product-cell">
+                  <div class="product-cell__image">
+                    <img [src]="product.thumbnail" [alt]="product.title" loading="lazy" />
+                  </div>
+
+                  <div class="product-cell__info">
+                    <strong>
+                      {{ product.title }}
+                    </strong>
+
+                    <span>
+                      #{{ product.id }}
+                      @if (product.brand) {
+                        · {{ product.brand }}
+                      }
+                    </span>
+                  </div>
+                </div>
+              </td>
+
+              <td>
+                <span class="category-badge">
+                  {{ product.category }}
+                </span>
+              </td>
+
+              <td>
+                <strong class="price">
+                  {{ formatCurrency(product.price) }}
+                </strong>
+              </td>
+
+              <td>
+                <div class="rating">
+                  <i class="pi pi-star-fill"></i>
+
+                  <span>
+                    {{ product.rating }}
+                  </span>
+                </div>
+              </td>
+
+              <td>
+                <span class="stock-value">
+                  {{ product.stock }}
+                </span>
+              </td>
+
+              <td>
+                <span
+                  class="stock-status"
+                  [class]="'stock-status stock-status--' + getStockStatus(product)"
+                >
+                  <span class="stock-status__dot"></span>
+
+                  {{ getStockTranslation(product) | translate }}
+                </span>
+              </td>
+
+              <td>
+                <div class="row-actions">
+                  <button
+                    type="button"
+                    class="row-action"
+                    [attr.aria-label]="'PRODUCTS.VIEW_PRODUCT' | translate"
+                    (click)="viewProduct(product.id)"
+                  >
+                    <i class="pi pi-eye"></i>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="row-action"
+                    [attr.aria-label]="'PRODUCTS.EDIT_PRODUCT' | translate"
+                    (click)="openEditProduct(product)"
+                  >
+                    <i class="pi pi-pencil"></i>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="row-action row-action--danger"
+                    [disabled]="deletingProductId() === product.id"
+                    [attr.aria-label]="'PRODUCTS.DELETE_PRODUCT' | translate"
+                    (click)="confirmDelete($event, product)"
+                  >
+                    @if (deletingProductId() === product.id) {
+                      <i class="pi pi-spin pi-spinner"></i>
+                    } @else {
+                      <i class="pi pi-trash"></i>
+                    }
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+
+          <ng-template #emptymessage>
+            <tr>
+              <td colspan="7">
+                <div class="empty-products">
+                  <span class="empty-products__icon">
+                    <i class="pi pi-box"></i>
+                  </span>
+
+                  <strong>
+                    {{ 'PRODUCTS.EMPTY_TITLE' | translate }}
+                  </strong>
+
+                  <p>
+                    {{ 'PRODUCTS.EMPTY_MESSAGE' | translate }}
+                  </p>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    }
+  </div>
+
+  <p-dialog
+    [header]="'PRODUCTS.DETAILS.TITLE' | translate"
+    [visible]="detailsVisible()"
+    (visibleChange)="detailsVisible.set($event)"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [dismissableMask]="true"
+    [style]="{ width: '850px' }"
+    [breakpoints]="{
+      '991px': '92vw',
+      '575px': '96vw',
+    }"
+  >
+    @if (detailsLoading()) {
+      <div class="product-details-loading">
+        <i class="pi pi-spin pi-spinner"></i>
+
+        <span>
+          {{ 'PRODUCTS.DETAILS.LOADING' | translate }}
+        </span>
+      </div>
+    } @else if (selectedProduct()) {
+      <app-product-details [product]="selectedProduct()!" />
+    }
+  </p-dialog>
+
+  <p-dialog
+    [header]="
+      editingProduct()
+        ? ('PRODUCTS.FORM.EDIT_TITLE' | translate)
+        : ('PRODUCTS.FORM.ADD_TITLE' | translate)
+    "
+    [visible]="formVisible()"
+    (visibleChange)="formVisible.set($event)"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [closable]="!formSubmitting()"
+    [dismissableMask]="!formSubmitting()"
+    [style]="{ width: '720px' }"
+    [breakpoints]="{
+      '767px': '94vw',
+      '575px': '96vw',
+    }"
+  >
+    <app-product-form
+      [product]="editingProduct()"
+      [categories]="categories()"
+      [submitting]="formSubmitting()"
+      (submitted)="saveProduct($event)"
+      (cancelled)="closeProductForm()"
+    />
+  </p-dialog>
+
+  <p-confirmdialog
+    [style]="{
+      width: '420px',
+    }"
+  />
+</section>

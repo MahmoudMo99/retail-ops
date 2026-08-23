@@ -1,1 +1,157 @@
-/* You can add global styles to this file, and also import other style files */
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+
+@import '@fontsource/ibm-plex-sans-arabic/400.css';
+@import '@fontsource/ibm-plex-sans-arabic/500.css';
+@import '@fontsource/ibm-plex-sans-arabic/600.css';
+@import '@fontsource/ibm-plex-sans-arabic/700.css';
+
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'primeicons/primeicons.css';
+
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'primeicons/primeicons.css';
+
+:root {
+  --font-en: 'Inter', sans-serif;
+  --font-ar: 'IBM Plex Sans Arabic', sans-serif;
+
+  --app-bg: #f8f9fb;
+
+  --surface-primary: #ffffff;
+  --surface-secondary: #f6f7f9;
+  --surface-hover: #f4f4f5;
+
+  --text-primary: #1d2939;
+  --text-secondary: #667085;
+  --text-muted: #98a2b3;
+
+  --border-primary: #e9edf3;
+  --border-secondary: #eaecf0;
+
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-soft: #f0f0ff;
+
+  --brand-logo-bg: #111827;
+  --brand-logo-text: #ffffff;
+
+  --avatar-bg: #eef2ff;
+
+  --danger: #f04438;
+
+  --success: #12b76a;
+  --success-soft: #ecfdf3;
+
+  --info: #2e90fa;
+  --info-soft: #eff8ff;
+
+  --warning: #f79009;
+  --warning-soft: #fffaeb;
+  --chart-primary-soft: rgb(79 70 229 / 10%);
+  --danger-soft: #fef3f2;
+
+  --shadow-card: 0 8px 24px rgb(16 24 40 / 5%);
+
+  --shadow-focus: 0 0 0 3px rgb(99 102 241 / 8%);
+
+  --backdrop-bg: rgb(15 23 42 / 42%);
+}
+
+/* Dark Theme */
+
+html.app-dark {
+  --app-bg: #0f1117;
+
+  --surface-primary: #161922;
+  --surface-secondary: #1c202b;
+  --surface-hover: #222733;
+
+  --text-primary: #f5f7fa;
+  --text-secondary: #b3bac6;
+  --text-muted: #7f8998;
+
+  --border-primary: #292e3a;
+  --border-secondary: #303642;
+
+  --primary: #818cf8;
+  --primary-hover: #a5b4fc;
+  --primary-soft: rgb(99 102 241 / 14%);
+
+  --brand-logo-bg: #6366f1;
+  --brand-logo-text: #ffffff;
+
+  --avatar-bg: rgb(99 102 241 / 16%);
+
+  --danger: #f97066;
+
+  --success: #32d583;
+  --success-soft: rgb(18 183 106 / 12%);
+
+  --info: #53b1fd;
+  --info-soft: rgb(46 144 250 / 12%);
+
+  --warning: #fdb022;
+  --warning-soft: rgb(247 144 9 / 12%);
+  --chart-primary-soft: rgb(129 140 248 / 12%);
+  --danger-soft: rgb(240 68 56 / 12%);
+
+  --shadow-card: 0 10px 28px rgb(0 0 0 / 18%);
+
+  --shadow-focus: 0 0 0 3px rgb(129 140 248 / 12%);
+
+  --backdrop-bg: rgb(0 0 0 / 55%);
+}
+
+/* Reset */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+
+  background: var(--app-bg);
+  color: var(--text-primary);
+
+  font-family: var(--font-en);
+
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+html[dir='rtl'] body {
+  font-family: var(--font-ar);
+}
+
+html[dir='rtl'] {
+  letter-spacing: normal;
+}
+
+html[dir='rtl'] {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    letter-spacing: 0;
+  }
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}

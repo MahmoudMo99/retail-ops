@@ -1,0 +1,99 @@
+<section class="dashboard-page">
+  <header class="dashboard-header">
+    <div class="dashboard-header__content">
+      <span class="dashboard-header__eyebrow">
+        {{ 'DASHBOARD.OVERVIEW' | translate }}
+      </span>
+
+      <h1>
+        {{ 'DASHBOARD.TITLE' | translate }}
+      </h1>
+
+      <p>
+        {{ 'DASHBOARD.SUBTITLE' | translate }}
+      </p>
+    </div>
+
+    <div class="dashboard-header__actions">
+      <button type="button" class="dashboard-action dashboard-action--secondary">
+        <i class="pi pi-calendar"></i>
+
+        <span>
+          {{ 'DASHBOARD.LAST_30_DAYS' | translate }}
+        </span>
+
+        <i class="pi pi-angle-down dashboard-action__arrow"></i>
+      </button>
+
+      <button type="button" class="dashboard-action dashboard-action--primary">
+        <i class="pi pi-download"></i>
+
+        <span>
+          {{ 'DASHBOARD.EXPORT' | translate }}
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <div class="kpi-grid">
+    @for (item of kpiCards; track item.id) {
+      <article class="kpi-card">
+        <div class="kpi-card__top">
+          <div class="kpi-card__icon" [class]="'kpi-card__icon kpi-card__icon--' + item.accent">
+            <i [class]="item.icon"></i>
+          </div>
+
+          <button
+            type="button"
+            class="kpi-card__menu"
+            [attr.aria-label]="'DASHBOARD.KPI.MORE_OPTIONS' | translate"
+          >
+            <i class="pi pi-ellipsis-h"></i>
+          </button>
+        </div>
+
+        <div class="kpi-card__body">
+          <span class="kpi-card__title">
+            {{ item.title | translate }}
+          </span>
+
+          <strong class="kpi-card__value">
+            {{ item.value }}
+          </strong>
+        </div>
+
+        <div class="kpi-card__footer">
+          <span
+            class="kpi-card__trend"
+            [class.kpi-card__trend--positive]="item.trendType === 'positive'"
+            [class.kpi-card__trend--negative]="item.trendType === 'negative'"
+          >
+            <i
+              class="pi"
+              [class.pi-arrow-up-right]="item.trendType === 'positive'"
+              [class.pi-arrow-down-right]="item.trendType === 'negative'"
+            ></i>
+
+            {{ item.trend }}%
+          </span>
+
+          <span class="kpi-card__comparison">
+            {{ item.comparison | translate }}
+          </span>
+        </div>
+      </article>
+    }
+  </div>
+
+  <div class="analytics-grid">
+    <app-revenue-overview />
+
+    <app-sales-breakdown />
+  </div>
+
+  <div class="dashboard-details-grid">
+    <app-recent-orders />
+
+    <app-top-products />
+  </div>
+</section>

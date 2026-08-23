@@ -1,0 +1,167 @@
+{
+  "APP": {
+    "NAME": "RetailOps",
+    "SUBTITLE": "Commerce Management"
+  },
+  "COMMON": {
+    "CANCEL": "Cancel"
+  },
+  "NAV": {
+    "OVERVIEW": "OVERVIEW",
+    "MANAGEMENT": "MANAGEMENT",
+    "INSIGHTS": "INSIGHTS",
+    "SYSTEM": "SYSTEM",
+    "DASHBOARD": "Dashboard",
+    "PRODUCTS": "Products",
+    "ORDERS": "Orders",
+    "CUSTOMERS": "Customers",
+    "INVENTORY": "Inventory",
+    "ANALYTICS": "Analytics",
+    "USERS": "Team & Users",
+    "SETTINGS": "Settings"
+  },
+  "TOPBAR": {
+    "DASHBOARD_TITLE": "Dashboard",
+    "DASHBOARD_SUBTITLE": "Overview of your store performance",
+    "SEARCH": "Search...",
+    "SWITCH_TO_LIGHT": "Switch to light mode",
+    "SWITCH_TO_DARK": "Switch to dark mode",
+    "PRODUCTS_SUBTITLE": "Manage your product catalog and inventory",
+    "ORDERS_SUBTITLE": "Manage and track customer orders",
+    "CUSTOMERS_SUBTITLE": "Manage your customers and activity",
+    "INVENTORY_SUBTITLE": "Monitor stock levels and availability",
+    "ANALYTICS_SUBTITLE": "Explore business performance and insights",
+    "USERS_SUBTITLE": "Manage team members and permissions",
+    "SETTINGS_SUBTITLE": "Manage your application preferences"
+  },
+  "USER": {
+    "ADMINISTRATOR": "Administrator"
+  },
+
+  "DASHBOARD": {
+    "OVERVIEW": "OVERVIEW",
+    "TITLE": "Store overview",
+    "SUBTITLE": "Track your store performance and key business metrics.",
+    "LAST_30_DAYS": "Last 30 days",
+    "EXPORT": "Export report",
+    "KPI": {
+      "REVENUE": "Total revenue",
+      "ORDERS": "Total orders",
+      "CUSTOMERS": "Customers",
+      "CONVERSION": "Conversion rate",
+      "VS_LAST_MONTH": "vs. last month",
+      "MORE_OPTIONS": "More options"
+    },
+    "REVENUE": {
+      "TITLE": "Revenue overview",
+      "SUBTITLE": "Revenue performance over the last 30 days"
+    },
+    "SALES": {
+      "TITLE": "Sales breakdown",
+      "SUBTITLE": "Sales distribution by category",
+      "TOTAL": "Total sales",
+      "ELECTRONICS": "Electronics",
+      "FASHION": "Fashion",
+      "HOME": "Home & Living",
+      "BEAUTY": "Beauty"
+    },
+    "VIEW_ALL": "View all",
+    "ORDERS": {
+      "TITLE": "Recent orders",
+      "SUBTITLE": "Latest customer orders and their status",
+      "ORDER": "Order",
+      "CUSTOMER": "Customer",
+      "DATE": "Date",
+      "STATUS_LABEL": "Status",
+      "AMOUNT": "Amount",
+      "STATUS": {
+        "PAID": "Paid",
+        "PENDING": "Pending",
+        "PROCESSING": "Processing",
+        "REFUNDED": "Refunded"
+      }
+    },
+    "PRODUCTS": {
+      "TITLE": "Top products",
+      "SUBTITLE": "Best performing products this month",
+      "SALES": "sales"
+    }
+  },
+  "PRODUCTS": {
+    "MANAGEMENT": "PRODUCT MANAGEMENT",
+    "TITLE": "Products",
+    "SUBTITLE": "Manage your product catalog, inventory and pricing.",
+    "ADD_PRODUCT": "Add product",
+    "SEARCH": "Search products...",
+    "PRODUCTS_COUNT": "products",
+    "FILTERS": "Filters",
+    "PRODUCT": "Product",
+    "CATEGORY": "Category",
+    "PRICE": "Price",
+    "RATING": "Rating",
+    "STOCK": "Stock",
+    "STATUS_LABEL": "Status",
+    "ACTIONS": "Actions",
+    "PAGE_REPORT": "Showing {first} to {last} of {totalRecords}",
+    "VIEW_PRODUCT": "View product",
+    "EDIT_PRODUCT": "Edit product",
+    "MORE_OPTIONS": "More options",
+    "ERROR_TITLE": "Unable to load products",
+    "ERROR_MESSAGE": "Something went wrong while loading the product catalog.",
+    "EMPTY_TITLE": "No products found",
+    "EMPTY_MESSAGE": "Try changing your search or filters.",
+    "STATUS": {
+      "IN_STOCK": "In stock",
+      "LOW_STOCK": "Low stock",
+      "OUT_OF_STOCK": "Out of stock"
+    },
+    "ALL_CATEGORIES": "All categories",
+    "CLEAR_FILTERS": "Clear filters",
+    "DETAILS": {
+      "TITLE": "Product details",
+      "LOADING": "Loading product details...",
+      "RATING": "Rating",
+      "STOCK": "Stock",
+      "DISCOUNT": "Discount",
+      "SKU": "SKU",
+      "AVAILABILITY": "Availability",
+      "SHIPPING": "Shipping",
+      "WARRANTY": "Warranty",
+      "RETURN_POLICY": "Return policy"
+    },
+    "FORM": {
+      "ADD_TITLE": "Add product",
+      "EDIT_TITLE": "Edit product",
+      "TITLE": "Product title",
+      "TITLE_PLACEHOLDER": "Enter product title",
+      "DESCRIPTION": "Description",
+      "DESCRIPTION_PLACEHOLDER": "Enter product description",
+      "CATEGORY": "Category",
+      "SELECT_CATEGORY": "Select category",
+      "BRAND": "Brand",
+      "BRAND_PLACEHOLDER": "Enter brand name",
+      "PRICE": "Price",
+      "DISCOUNT": "Discount",
+      "STOCK": "Stock quantity",
+      "THUMBNAIL": "Thumbnail URL",
+      "CREATE": "Create product",
+      "UPDATE": "Save changes",
+      "ERRORS": {
+        "TITLE_REQUIRED": "Product title is required.",
+        "TITLE_LENGTH": "Title must be between 3 and 100 characters.",
+        "DESCRIPTION_REQUIRED": "Description is required.",
+        "DESCRIPTION_LENGTH": "Description must be between 10 and 500 characters.",
+        "CATEGORY_REQUIRED": "Please select a category.",
+        "PRICE_INVALID": "Enter a valid price greater than zero.",
+        "DISCOUNT_INVALID": "Discount must be between 0 and 100.",
+        "STOCK_INVALID": "Stock must be a valid whole number."
+      }
+    },
+    "DELETE_PRODUCT": "Delete product",
+    "DELETE": {
+      "TITLE": "Delete product",
+      "MESSAGE": "Are you sure you want to delete {{name}}? This action cannot be undone.",
+      "CONFIRM": "Delete product"
+    }
+  }
+}

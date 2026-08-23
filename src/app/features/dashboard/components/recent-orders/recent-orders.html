@@ -1,0 +1,85 @@
+<article class="dashboard-card">
+  <header class="dashboard-card__header">
+    <div>
+      <h2>
+        {{ 'DASHBOARD.ORDERS.TITLE' | translate }}
+      </h2>
+
+      <p>
+        {{ 'DASHBOARD.ORDERS.SUBTITLE' | translate }}
+      </p>
+    </div>
+
+    <a routerLink="/orders" class="view-all-link">
+      {{ 'DASHBOARD.VIEW_ALL' | translate }}
+
+      <i class="pi pi-arrow-right"></i>
+    </a>
+  </header>
+
+  <div class="orders-table-wrapper">
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>
+            {{ 'DASHBOARD.ORDERS.ORDER' | translate }}
+          </th>
+
+          <th>
+            {{ 'DASHBOARD.ORDERS.CUSTOMER' | translate }}
+          </th>
+
+          <th>
+            {{ 'DASHBOARD.ORDERS.DATE' | translate }}
+          </th>
+
+          <th>
+            {{ 'DASHBOARD.ORDERS.STATUS_LABEL' | translate }}
+          </th>
+
+          <th>
+            {{ 'DASHBOARD.ORDERS.AMOUNT' | translate }}
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (order of orders; track order.id) {
+          <tr>
+            <td>
+              <strong class="order-id">
+                {{ order.id }}
+              </strong>
+            </td>
+
+            <td>
+              <div class="customer">
+                <span class="customer__avatar">
+                  {{ order.initials }}
+                </span>
+
+                <span class="customer__name">
+                  {{ order.customer }}
+                </span>
+              </div>
+            </td>
+
+            <td class="order-date">
+              {{ order.date }}
+            </td>
+
+            <td>
+              <span class="status-badge" [class]="'status-badge status-badge--' + order.status">
+                {{ getStatusKey(order.status) | translate }}
+              </span>
+            </td>
+
+            <td class="order-amount">
+              {{ formatCurrency(order.amount) }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</article>

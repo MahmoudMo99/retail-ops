@@ -1,0 +1,56 @@
+<article class="dashboard-card">
+  <header class="dashboard-card__header">
+    <div>
+      <h2>
+        {{ 'DASHBOARD.PRODUCTS.TITLE' | translate }}
+      </h2>
+
+      <p>
+        {{ 'DASHBOARD.PRODUCTS.SUBTITLE' | translate }}
+      </p>
+    </div>
+
+    <a routerLink="/products" class="view-all-link">
+      {{ 'DASHBOARD.VIEW_ALL' | translate }}
+      <i class="pi pi-arrow-right"></i>
+    </a>
+  </header>
+
+  <div class="product-list">
+    @for (product of products; track product.id; let rank = $index) {
+      <div class="product-item">
+        <span class="product-item__rank">
+          {{ rank + 1 }}
+        </span>
+
+        <div
+          class="product-item__icon"
+          [class]="'product-item__icon product-item__icon--' + product.accent"
+        >
+          <i [class]="product.icon"></i>
+        </div>
+
+        <div class="product-item__info">
+          <strong>
+            {{ product.name }}
+          </strong>
+
+          <span>
+            {{ product.category }}
+          </span>
+        </div>
+
+        <div class="product-item__stats">
+          <strong>
+            {{ formatCurrency(product.revenue) }}
+          </strong>
+
+          <span>
+            {{ product.sales }}
+            {{ 'DASHBOARD.PRODUCTS.SALES' | translate }}
+          </span>
+        </div>
+      </div>
+    }
+  </div>
+</article>

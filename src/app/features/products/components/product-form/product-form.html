@@ -1,0 +1,194 @@
+<form class="product-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="form-grid">
+    <div class="form-field form-field--full">
+      <label for="product-title">
+        {{ 'PRODUCTS.FORM.TITLE' | translate }}
+        <span>*</span>
+      </label>
+
+      <input
+        id="product-title"
+        type="text"
+        formControlName="title"
+        [placeholder]="'PRODUCTS.FORM.TITLE_PLACEHOLDER' | translate"
+      />
+
+      @if (hasError('title', 'required')) {
+        <small class="field-error">
+          {{ 'PRODUCTS.FORM.ERRORS.TITLE_REQUIRED' | translate }}
+        </small>
+      }
+
+      @if (hasError('title', 'minlength') || hasError('title', 'maxlength')) {
+        <small class="field-error">
+          {{ 'PRODUCTS.FORM.ERRORS.TITLE_LENGTH' | translate }}
+        </small>
+      }
+    </div>
+
+    <div class="form-field form-field--full">
+      <label for="product-description">
+        {{ 'PRODUCTS.FORM.DESCRIPTION' | translate }}
+        <span>*</span>
+      </label>
+
+      <textarea
+        id="product-description"
+        rows="4"
+        formControlName="description"
+        [placeholder]="'PRODUCTS.FORM.DESCRIPTION_PLACEHOLDER' | translate"
+      ></textarea>
+
+      @if (hasError('description', 'required')) {
+        <small class="field-error">
+          {{ 'PRODUCTS.FORM.ERRORS.DESCRIPTION_REQUIRED' | translate }}
+        </small>
+      }
+
+      @if (hasError('description', 'minlength') || hasError('description', 'maxlength')) {
+        <small class="field-error">
+          {{ 'PRODUCTS.FORM.ERRORS.DESCRIPTION_LENGTH' | translate }}
+        </small>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="product-category">
+        {{ 'PRODUCTS.FORM.CATEGORY' | translate }}
+        <span>*</span>
+      </label>
+
+      <div class="select-wrapper">
+        <select id="product-category" formControlName="category">
+          <option value="">
+            {{ 'PRODUCTS.FORM.SELECT_CATEGORY' | translate }}
+          </option>
+
+          @for (category of categories(); track category.slug) {
+            <option [value]="category.slug">
+              {{ category.name }}
+            </option>
+          }
+        </select>
+
+        <i class="pi pi-angle-down"></i>
+      </div>
+
+      @if (hasError('category', 'required')) {
+        <small class="field-error">
+          {{ 'PRODUCTS.FORM.ERRORS.CATEGORY_REQUIRED' | translate }}
+        </small>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="product-brand">
+        {{ 'PRODUCTS.FORM.BRAND' | translate }}
+      </label>
+
+      <input
+        id="product-brand"
+        type="text"
+        formControlName="brand"
+        [placeholder]="'PRODUCTS.FORM.BRAND_PLACEHOLDER' | translate"
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="product-price">
+        {{ 'PRODUCTS.FORM.PRICE' | translate }}
+        <span>*</span>
+      </label>
+
+      <div class="input-with-prefix">
+        <span>$</span>
+
+        <input id="product-price" type="number" min="0" step="0.01" formControlName="price" />
+      </div>
+
+      @if (hasError('price', 'required') || hasError('price', 'min')) {
+        <small class="field-error">
+          {{ 'PRODUCTS.FORM.ERRORS.PRICE_INVALID' | translate }}
+        </small>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="product-discount">
+        {{ 'PRODUCTS.FORM.DISCOUNT' | translate }}
+      </label>
+
+      <div class="input-with-suffix">
+        <input
+          id="product-discount"
+          type="number"
+          min="0"
+          max="100"
+          step="0.01"
+          formControlName="discountPercentage"
+        />
+
+        <span>%</span>
+      </div>
+
+      @if (hasError('discountPercentage', 'min') || hasError('discountPercentage', 'max')) {
+        <small class="field-error">
+          {{ 'PRODUCTS.FORM.ERRORS.DISCOUNT_INVALID' | translate }}
+        </small>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="product-stock">
+        {{ 'PRODUCTS.FORM.STOCK' | translate }}
+        <span>*</span>
+      </label>
+
+      <input id="product-stock" type="number" min="0" step="1" formControlName="stock" />
+
+      @if (
+        hasError('stock', 'required') || hasError('stock', 'min') || hasError('stock', 'pattern')
+      ) {
+        <small class="field-error">
+          {{ 'PRODUCTS.FORM.ERRORS.STOCK_INVALID' | translate }}
+        </small>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="product-thumbnail">
+        {{ 'PRODUCTS.FORM.THUMBNAIL' | translate }}
+      </label>
+
+      <input
+        id="product-thumbnail"
+        type="url"
+        formControlName="thumbnail"
+        placeholder="https://..."
+      />
+    </div>
+  </div>
+
+  <div class="product-form__actions">
+    <button
+      type="button"
+      class="form-button form-button--secondary"
+      [disabled]="submitting()"
+      (click)="cancel()"
+    >
+      {{ 'COMMON.CANCEL' | translate }}
+    </button>
+
+    <button type="submit" class="form-button form-button--primary" [disabled]="submitting()">
+      @if (submitting()) {
+        <i class="pi pi-spin pi-spinner"></i>
+      }
+
+      <span>
+        {{
+          product() ? ('PRODUCTS.FORM.UPDATE' | translate) : ('PRODUCTS.FORM.CREATE' | translate)
+        }}
+      </span>
+    </button>
+  </div>
+</form>

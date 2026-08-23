@@ -1,0 +1,22 @@
+<div class="app-layout">
+  <div class="sidebar-wrapper" [class.sidebar-wrapper--open]="mobileSidebarOpen()">
+    <app-sidebar />
+  </div>
+
+  @if (mobileSidebarOpen()) {
+    <button
+      type="button"
+      class="sidebar-backdrop"
+      aria-label="Close navigation"
+      (click)="closeMobileSidebar()"
+    ></button>
+  }
+
+  <div class="app-main">
+    <app-topbar (menuToggle)="toggleMobileSidebar()" />
+
+    <main class="app-content">
+      <router-outlet />
+    </main>
+  </div>
+</div>

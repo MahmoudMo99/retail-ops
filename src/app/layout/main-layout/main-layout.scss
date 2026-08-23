@@ -1,0 +1,98 @@
+.app-layout {
+  min-height: 100vh;
+
+  display: flex;
+
+  background: var(--app-bg);
+
+  transition: background-color 180ms ease;
+}
+
+.sidebar-wrapper {
+  position: relative;
+
+  z-index: 30;
+
+  flex-shrink: 0;
+}
+
+.app-main {
+  min-width: 0;
+  min-height: 100vh;
+
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.app-content {
+  flex: 1;
+
+  padding: 28px;
+
+  background: var(--app-bg);
+
+  transition: background-color 180ms ease;
+}
+
+.sidebar-backdrop {
+  display: none;
+}
+
+@media (max-width: 991.98px) {
+  .sidebar-wrapper {
+    position: fixed;
+
+    inset-block: 0;
+    inset-inline-start: 0;
+
+    z-index: 1000;
+
+    transform: translateX(-105%);
+
+    transition: transform 220ms ease;
+  }
+
+  .sidebar-wrapper--open {
+    transform: translateX(0);
+  }
+
+  .sidebar-backdrop {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 999;
+
+    display: block;
+
+    padding: 0;
+
+    border: 0;
+
+    background: var(--backdrop-bg);
+
+    cursor: default;
+  }
+
+  .app-content {
+    padding: 22px;
+  }
+
+  :host-context([dir='rtl']) {
+    .sidebar-wrapper {
+      transform: translateX(105%);
+    }
+
+    .sidebar-wrapper--open {
+      transform: translateX(0);
+    }
+  }
+}
+
+@media (max-width: 575.98px) {
+  .app-content {
+    padding: 16px;
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "APP": {
+    "NAME": "ريتيل أوبس",
+    "SUBTITLE": "إدارة التجارة"
+  },
+  "COMMON": {
+    "CANCEL": "إلغاء"
+  },
+  "NAV": {
+    "OVERVIEW": "نظرة عامة",
+    "MANAGEMENT": "الإدارة",
+    "INSIGHTS": "التحليلات",
+    "SYSTEM": "النظام",
+    "DASHBOARD": "لوحة التحكم",
+    "PRODUCTS": "المنتجات",
+    "ORDERS": "الطلبات",
+    "CUSTOMERS": "العملاء",
+    "INVENTORY": "المخزون",
+    "ANALYTICS": "التحليلات",
+    "USERS": "الفريق والمستخدمون",
+    "SETTINGS": "الإعدادات"
+  },
+  "TOPBAR": {
+    "DASHBOARD_TITLE": "لوحة التحكم",
+    "DASHBOARD_SUBTITLE": "نظرة عامة على أداء متجرك",
+    "SEARCH": "بحث...",
+    "SWITCH_TO_LIGHT": "التبديل إلى الوضع الفاتح",
+    "SWITCH_TO_DARK": "التبديل إلى الوضع الداكن",
+    "PRODUCTS_SUBTITLE": "إدارة كتالوج المنتجات والمخزون",
+    "ORDERS_SUBTITLE": "إدارة طلبات العملاء ومتابعتها",
+    "CUSTOMERS_SUBTITLE": "إدارة العملاء ونشاطهم",
+    "INVENTORY_SUBTITLE": "متابعة مستويات المخزون والتوفر",
+    "ANALYTICS_SUBTITLE": "استعراض أداء الأعمال والتحليلات",
+    "USERS_SUBTITLE": "إدارة أعضاء الفريق والصلاحيات",
+    "SETTINGS_SUBTITLE": "إدارة تفضيلات التطبيق"
+  },
+  "USER": {
+    "ADMINISTRATOR": "مدير النظام"
+  },
+  "DASHBOARD": {
+    "OVERVIEW": "نظرة عامة",
+    "TITLE": "نظرة عامة على المتجر",
+    "SUBTITLE": "تابع أداء متجرك وأهم مؤشرات العمل.",
+    "LAST_30_DAYS": "آخر 30 يومًا",
+    "EXPORT": "تصدير التقرير",
+    "KPI": {
+      "REVENUE": "إجمالي الإيرادات",
+      "ORDERS": "إجمالي الطلبات",
+      "CUSTOMERS": "العملاء",
+      "CONVERSION": "معدل التحويل",
+      "VS_LAST_MONTH": "مقارنة بالشهر الماضي",
+      "MORE_OPTIONS": "المزيد من الخيارات"
+    },
+    "REVENUE": {
+      "TITLE": "نظرة عامة على الإيرادات",
+      "SUBTITLE": "أداء الإيرادات خلال آخر 30 يومًا"
+    },
+    "SALES": {
+      "TITLE": "توزيع المبيعات",
+      "SUBTITLE": "توزيع المبيعات حسب الفئة",
+      "TOTAL": "إجمالي المبيعات",
+      "ELECTRONICS": "الإلكترونيات",
+      "FASHION": "الأزياء",
+      "HOME": "المنزل والمعيشة",
+      "BEAUTY": "العناية والجمال"
+    },
+    "VIEW_ALL": "عرض الكل",
+    "ORDERS": {
+      "TITLE": "أحدث الطلبات",
+      "SUBTITLE": "آخر طلبات العملاء وحالتها",
+      "ORDER": "الطلب",
+      "CUSTOMER": "العميل",
+      "DATE": "التاريخ",
+      "STATUS_LABEL": "الحالة",
+      "AMOUNT": "القيمة",
+      "STATUS": {
+        "PAID": "مدفوع",
+        "PENDING": "قيد الانتظار",
+        "PROCESSING": "قيد التجهيز",
+        "REFUNDED": "مسترد"
+      }
+    },
+    "PRODUCTS": {
+      "TITLE": "أفضل المنتجات",
+      "SUBTITLE": "المنتجات الأفضل أداءً هذا الشهر",
+      "SALES": "عملية بيع"
+    }
+  },
+  "PRODUCTS": {
+    "MANAGEMENT": "إدارة المنتجات",
+    "TITLE": "المنتجات",
+    "SUBTITLE": "إدارة كتالوج المنتجات والمخزون والأسعار.",
+    "ADD_PRODUCT": "إضافة منتج",
+    "SEARCH": "البحث في المنتجات...",
+    "PRODUCTS_COUNT": "منتج",
+    "FILTERS": "التصفية",
+    "PRODUCT": "المنتج",
+    "CATEGORY": "الفئة",
+    "PRICE": "السعر",
+    "RATING": "التقييم",
+    "STOCK": "المخزون",
+    "STATUS_LABEL": "الحالة",
+    "ACTIONS": "الإجراءات",
+    "PAGE_REPORT": "عرض {first} إلى {last} من أصل {totalRecords}",
+    "VIEW_PRODUCT": "عرض المنتج",
+    "EDIT_PRODUCT": "تعديل المنتج",
+    "MORE_OPTIONS": "المزيد من الخيارات",
+    "ERROR_TITLE": "تعذر تحميل المنتجات",
+    "ERROR_MESSAGE": "حدث خطأ أثناء تحميل كتالوج المنتجات.",
+    "EMPTY_TITLE": "لا توجد منتجات",
+    "EMPTY_MESSAGE": "جرّب تغيير البحث أو خيارات التصفية.",
+    "STATUS": {
+      "IN_STOCK": "متوفر",
+      "LOW_STOCK": "مخزون منخفض",
+      "OUT_OF_STOCK": "غير متوفر"
+    },
+    "ALL_CATEGORIES": "كل الفئات",
+    "CLEAR_FILTERS": "مسح التصفية",
+    "DETAILS": {
+      "TITLE": "تفاصيل المنتج",
+      "LOADING": "جارٍ تحميل تفاصيل المنتج...",
+      "RATING": "التقييم",
+      "STOCK": "المخزون",
+      "DISCOUNT": "الخصم",
+      "SKU": "رمز المنتج",
+      "AVAILABILITY": "التوفر",
+      "SHIPPING": "الشحن",
+      "WARRANTY": "الضمان",
+      "RETURN_POLICY": "سياسة الإرجاع"
+    },
+    "FORM": {
+      "ADD_TITLE": "إضافة منتج",
+      "EDIT_TITLE": "تعديل المنتج",
+      "TITLE": "اسم المنتج",
+      "TITLE_PLACEHOLDER": "أدخل اسم المنتج",
+      "DESCRIPTION": "الوصف",
+      "DESCRIPTION_PLACEHOLDER": "أدخل وصف المنتج",
+      "CATEGORY": "الفئة",
+      "SELECT_CATEGORY": "اختر الفئة",
+      "BRAND": "العلامة التجارية",
+      "BRAND_PLACEHOLDER": "أدخل اسم العلامة التجارية",
+      "PRICE": "السعر",
+      "DISCOUNT": "الخصم",
+      "STOCK": "كمية المخزون",
+      "THUMBNAIL": "رابط صورة المنتج",
+      "CREATE": "إضافة المنتج",
+      "UPDATE": "حفظ التعديلات",
+      "ERRORS": {
+        "TITLE_REQUIRED": "اسم المنتج مطلوب.",
+        "TITLE_LENGTH": "يجب أن يكون الاسم بين 3 و100 حرف.",
+        "DESCRIPTION_REQUIRED": "وصف المنتج مطلوب.",
+        "DESCRIPTION_LENGTH": "يجب أن يكون الوصف بين 10 و500 حرف.",
+        "CATEGORY_REQUIRED": "يرجى اختيار الفئة.",
+        "PRICE_INVALID": "أدخل سعرًا صحيحًا أكبر من صفر.",
+        "DISCOUNT_INVALID": "يجب أن تكون نسبة الخصم بين 0 و100.",
+        "STOCK_INVALID": "يجب أن تكون كمية المخزون رقمًا صحيحًا."
+      }
+    },
+    "DELETE_PRODUCT": "حذف المنتج",
+    "DELETE": {
+      "TITLE": "حذف المنتج",
+      "MESSAGE": "هل أنت متأكد من حذف {{name}}؟ لا يمكن التراجع عن هذا الإجراء.",
+      "CONFIRM": "حذف المنتج"
+    }
+  }
+}
