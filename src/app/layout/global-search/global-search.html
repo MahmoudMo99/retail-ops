@@ -1,0 +1,123 @@
+@if (visible()) {
+  <div class="command-overlay" role="presentation">
+    <button
+      type="button"
+      class="command-backdrop"
+      aria-label="Close search"
+      (click)="close()"
+    ></button>
+
+    <section
+      class="command-palette"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="'GLOBAL_SEARCH.TITLE' | translate"
+    >
+      <div class="command-search">
+        <i class="pi pi-search"></i>
+
+        <input
+          #searchInput
+          type="search"
+          autocomplete="off"
+          [value]="query()"
+          [placeholder]="'GLOBAL_SEARCH.PLACEHOLDER' | translate"
+          (input)="onSearch($event)"
+          (keydown)="onInputKeydown($event)"
+        />
+
+        <span class="command-search__escape"> ESC </span>
+      </div>
+
+      <div class="command-content">
+        @if (filteredItems().length) {
+          <span class="command-section-label">
+            {{
+              query()
+                ? ('GLOBAL_SEARCH.RESULTS' | translate)
+                : ('GLOBAL_SEARCH.QUICK_NAVIGATION' | translate)
+            }}
+          </span>
+
+          <div class="command-results">
+            @for (item of filteredItems(); track item.route; let index = $index) {
+              <button
+                type="button"
+                class="command-result"
+                [class.command-result--selected]="selectedIndex() === index"
+                (mouseenter)="selectedIndex.set(index)"
+                (click)="selectItem(item)"
+              >
+                <span class="command-result__icon">
+                  <i [class]="item.icon"></i>
+                </span>
+
+                <span class="command-result__content">
+                  <strong>
+                    {{ item.titleKey | translate }}
+                  </strong>
+
+                  <small>
+                    {{ item.subtitleKey | translate }}
+                  </small>
+                </span>
+
+                <span class="command-result__route">
+                  {{ item.route }}
+                </span>
+
+                @if (selectedIndex() === index) {
+                  <span class="command-result__enter">
+                    <i class="pi pi-arrow-right"></i>
+                  </span>
+                }
+              </button>
+            }
+          </div>
+        } @else {
+          <div class="command-empty">
+            <span>
+              <i class="pi pi-search"></i>
+            </span>
+
+            <strong>
+              {{ 'GLOBAL_SEARCH.EMPTY_TITLE' | translate }}
+            </strong>
+
+            <p>
+              {{ 'GLOBAL_SEARCH.EMPTY_MESSAGE' | translate }}
+            </p>
+          </div>
+        }
+      </div>
+
+      <footer class="command-footer">
+        <div>
+          <span class="keyboard-key"> ↑ </span>
+
+          <span class="keyboard-key"> ↓ </span>
+
+          <span>
+            {{ 'GLOBAL_SEARCH.NAVIGATE' | translate }}
+          </span>
+        </div>
+
+        <div>
+          <span class="keyboard-key"> Enter </span>
+
+          <span>
+            {{ 'GLOBAL_SEARCH.OPEN' | translate }}
+          </span>
+        </div>
+
+        <div>
+          <span class="keyboard-key"> Esc </span>
+
+          <span>
+            {{ 'GLOBAL_SEARCH.CLOSE' | translate }}
+          </span>
+        </div>
+      </footer>
+    </section>
+  </div>
+}

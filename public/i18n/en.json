@@ -467,5 +467,32 @@
       "TITLE": "Preferences save automatically",
       "MESSAGE": "Appearance and language changes are applied immediately and remembered on this device."
     }
+  },
+  "GLOBAL_SEARCH": {
+    "TITLE": "Global search",
+    "PLACEHOLDER": "Search pages and workspace areas...",
+    "QUICK_NAVIGATION": "Quick navigation",
+    "RESULTS": "Search results",
+    "EMPTY_TITLE": "No results found",
+    "EMPTY_MESSAGE": "Try searching for another page or workspace area.",
+    "NAVIGATE": "Navigate",
+    "OPEN": "Open",
+    "CLOSE": "Close"
+  },
+  "NOTIFICATIONS": {
+    "TITLE": "Notifications",
+    "UNREAD": "unread alerts",
+    "MARK_ALL_READ": "Mark all as read",
+    "LOADING": "Checking operational alerts...",
+    "LOW_STOCK_TITLE": "Low stock",
+    "LOW_STOCK_MESSAGE": "{{name}} has only {{stock}} units remaining.",
+    "OUT_OF_STOCK_TITLE": "Out of stock",
+    "OUT_OF_STOCK_MESSAGE": "{{name}} is currently out of stock.",
+    "EMPTY_TITLE": "Everything looks good",
+    "EMPTY_MESSAGE": "There are no inventory alerts that need your attention.",
+    "VIEW_INVENTORY": "View inventory"
+  },
+  "PROFILE_MENU": {
+    "SETTINGS": "Account settings"
   }
 }

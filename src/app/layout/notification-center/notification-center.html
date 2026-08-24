@@ -1,0 +1,85 @@
+<section class="notifications-panel">
+  <header class="notifications-header">
+    <div>
+      <h3>
+        {{ 'NOTIFICATIONS.TITLE' | translate }}
+      </h3>
+
+      <span>
+        {{ notificationsService.unreadCount() }}
+        {{ 'NOTIFICATIONS.UNREAD' | translate }}
+      </span>
+    </div>
+
+    @if (notificationsService.unreadCount() > 0) {
+      <button type="button" (click)="markAllAsRead()">
+        {{ 'NOTIFICATIONS.MARK_ALL_READ' | translate }}
+      </button>
+    }
+  </header>
+
+  <div class="notifications-content">
+    @if (notificationsService.loading()) {
+      <div class="notifications-loading">
+        <i class="pi pi-spin pi-spinner"></i>
+
+        <span>
+          {{ 'NOTIFICATIONS.LOADING' | translate }}
+        </span>
+      </div>
+    } @else if (notificationsService.notifications().length) {
+      @for (notification of notificationsService.notifications(); track notification.id) {
+        <button
+          type="button"
+          class="notification-item"
+          [class.notification-item--unread]="!notification.isRead"
+          (click)="openNotification(notification)"
+        >
+          <span
+            class="notification-item__icon"
+            [class.notification-item__icon--warning]="notification.type === 'warning'"
+            [class.notification-item__icon--danger]="notification.type === 'danger'"
+          >
+            <i [class]="notification.icon"></i>
+          </span>
+
+          <span class="notification-item__content">
+            <strong>
+              {{ notification.titleKey | translate }}
+            </strong>
+
+            <span>
+              {{ notification.messageKey | translate: notification.params }}
+            </span>
+          </span>
+
+          @if (!notification.isRead) {
+            <span class="notification-item__dot"></span>
+          }
+        </button>
+      }
+    } @else {
+      <div class="notifications-empty">
+        <span>
+          <i class="pi pi-check"></i>
+        </span>
+
+        <strong>
+          {{ 'NOTIFICATIONS.EMPTY_TITLE' | translate }}
+        </strong>
+
+        <p>
+          {{ 'NOTIFICATIONS.EMPTY_MESSAGE' | translate }}
+        </p>
+      </div>
+    }
+  </div>
+
+  <footer class="notifications-footer">
+    <a routerLink="/inventory">
+      {{ 'NOTIFICATIONS.VIEW_INVENTORY' | translate }}
+
+      <i class="pi pi-arrow-right"></i>
+    </a>
+  </footer>
+</section>

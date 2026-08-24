@@ -21,17 +21,15 @@
   </div>
 
   <div class="topbar__end">
-    <div class="topbar-search">
+    <button type="button" class="topbar-search" (click)="openGlobalSearch()">
       <i class="pi pi-search"></i>
 
-      <input
-        type="search"
-        [placeholder]="'TOPBAR.SEARCH_PLACEHOLDER' | translate"
-        [attr.aria-label]="'TOPBAR.SEARCH_PLACEHOLDER' | translate"
-      />
+      <span class="topbar-search__placeholder">
+        {{ 'TOPBAR.SEARCH_PLACEHOLDER' | translate }}
+      </span>
 
       <span class="topbar-search__shortcut"> Ctrl K </span>
-    </div>
+    </button>
 
     <div class="topbar__actions">
       <button
@@ -60,49 +58,117 @@
         ></i>
       </button>
 
-      <button
-        type="button"
-        class="topbar__action-btn topbar__notification-btn"
-        [attr.aria-label]="'TOPBAR.NOTIFICATIONS' | translate"
-      >
-        <i class="pi pi-bell"></i>
-
-        <span class="notification-dot"></span>
-      </button>
-
-      @if (currentUser(); as user) {
-        <div class="topbar-profile">
-          <div class="topbar-profile__avatar">
-            @if (user.image) {
-              <img [src]="user.image" [alt]="user.firstName + ' ' + user.lastName" />
-            } @else {
-              <span>
-                {{ userInitials() }}
-              </span>
-            }
-          </div>
-
-          <div class="topbar-profile__info">
-            <strong>
-              {{ user.firstName }}
-            </strong>
-
-            <span>
-              {{ getRoleKey(user.role) | translate }}
-            </span>
-          </div>
-        </div>
-
+      <div class="notification-wrapper">
         <button
           type="button"
-          class="topbar__action-btn topbar__logout-btn"
-          [attr.aria-label]="'AUTH.LOGOUT' | translate"
-          [title]="'AUTH.LOGOUT' | translate"
-          (click)="logout()"
+          class="topbar__action-btn topbar__notification-btn"
+          [attr.aria-label]="'TOPBAR.NOTIFICATIONS' | translate"
+          [attr.aria-expanded]="notificationsOpen()"
+          (click)="toggleNotifications()"
         >
-          <i class="pi pi-sign-out"></i>
+          <i class="pi pi-bell"></i>
+
+          @if (notificationsService.unreadCount() > 0) {
+            <span class="notification-dot"></span>
+          }
         </button>
+
+        @if (notificationsOpen()) {
+          <app-notification-center (closed)="closeNotifications()" />
+        }
+      </div>
+
+      @if (currentUser(); as user) {
+        <div class="profile-wrapper" (click)="$event.stopPropagation()">
+          <button
+            type="button"
+            class="topbar-profile"
+            [class.topbar-profile--open]="profileMenuOpen()"
+            [attr.aria-expanded]="profileMenuOpen()"
+            (click)="toggleProfileMenu()"
+          >
+            <div class="topbar-profile__avatar">
+              @if (user.image) {
+                <img [src]="user.image" [alt]="user.firstName + ' ' + user.lastName" />
+              } @else {
+                <span>
+                  {{ userInitials() }}
+                </span>
+              }
+            </div>
+
+            <div class="topbar-profile__info">
+              <strong>
+                {{ user.firstName }}
+              </strong>
+
+              <span>
+                {{ getRoleKey(user.role) | translate }}
+              </span>
+            </div>
+
+            <i
+              class="pi pi-angle-down topbar-profile__chevron"
+              [class.topbar-profile__chevron--open]="profileMenuOpen()"
+            ></i>
+          </button>
+
+          @if (profileMenuOpen()) {
+            <div class="profile-menu">
+              <div class="profile-menu__user">
+                <div class="profile-menu__avatar">
+                  @if (user.image) {
+                    <img [src]="user.image" [alt]="user.firstName + ' ' + user.lastName" />
+                  } @else {
+                    {{ userInitials() }}
+                  }
+                </div>
+
+                <div>
+                  <strong>
+                    {{ user.firstName }}
+                    {{ user.lastName }}
+                  </strong>
+
+                  <span>
+                    {{ user.email }}
+                  </span>
+
+                  <small>
+                    {{ getRoleKey(user.role) | translate }}
+                  </small>
+                </div>
+              </div>
+
+              <div class="profile-menu__divider"></div>
+
+              <button type="button" class="profile-menu__item" (click)="goToSettings()">
+                <i class="pi pi-cog"></i>
+
+                <span>
+                  {{ 'PROFILE_MENU.SETTINGS' | translate }}
+                </span>
+
+                <i class="pi pi-angle-right profile-menu__arrow"></i>
+              </button>
+
+              <button
+                type="button"
+                class="profile-menu__item profile-menu__item--danger"
+                (click)="logout()"
+              >
+                <i class="pi pi-sign-out"></i>
+
+                <span>
+                  {{ 'AUTH.LOGOUT' | translate }}
+                </span>
+              </button>
+            </div>
+          }
+        </div>
       }
     </div>
   </div>
 </header>
+
+<app-global-search />
