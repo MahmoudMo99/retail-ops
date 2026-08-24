@@ -345,5 +345,57 @@
       "PRODUCTS": "products",
       "INVENTORY_HINT": "Products currently low or out of stock"
     }
+  },
+  "USERS": {
+    "MANAGEMENT": "TEAM MANAGEMENT",
+    "TITLE": "Team & Users",
+    "SUBTITLE": "Manage system accounts, roles and team access.",
+    "ADD_USER": "Add user",
+    "SEARCH": "Search users...",
+    "USERS_COUNT": "users",
+    "USER": "User",
+    "EMAIL": "Email",
+    "PHONE": "Phone",
+    "USERNAME": "Username",
+    "ROLE": "Role",
+    "ACTIONS": "Actions",
+    "PAGE_REPORT": "Showing {first} to {last} of {totalRecords}",
+    "ERROR_TITLE": "Unable to load users",
+    "ERROR_MESSAGE": "Something went wrong while loading system users.",
+    "EMPTY_TITLE": "No users found",
+    "EMPTY_MESSAGE": "Try changing your search query.",
+    "ROLES": {
+      "ADMIN": "Admin",
+      "MODERATOR": "Moderator",
+      "USER": "User"
+    },
+    "DETAILS": {
+      "TITLE": "User details",
+      "LOADING": "Loading user details..."
+    },
+    "FORM": {
+      "ADD_TITLE": "Add user",
+      "EDIT_TITLE": "Edit user",
+      "FIRST_NAME": "First name",
+      "LAST_NAME": "Last name",
+      "USERNAME": "Username",
+      "EMAIL": "Email address",
+      "PHONE": "Phone number",
+      "ROLE": "Role",
+      "CREATE": "Create user",
+      "UPDATE": "Save changes",
+      "ERRORS": {
+        "FIRST_NAME": "Enter a valid first name.",
+        "LAST_NAME": "Enter a valid last name.",
+        "USERNAME": "Username must contain at least 3 characters.",
+        "EMAIL": "Enter a valid email address.",
+        "PHONE": "Enter a valid phone number."
+      }
+    },
+    "DELETE": {
+      "TITLE": "Delete user",
+      "MESSAGE": "Are you sure you want to delete {{name}}? This action cannot be undone.",
+      "CONFIRM": "Delete user"
+    }
   }
 }

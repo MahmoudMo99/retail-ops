@@ -1,0 +1,134 @@
+<form class="user-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="form-grid">
+    <div class="form-field">
+      <label for="user-first-name">
+        {{ 'USERS.FORM.FIRST_NAME' | translate }}
+        <span>*</span>
+      </label>
+
+      <input id="user-first-name" type="text" formControlName="firstName" />
+
+      @if (
+        hasError('firstName', 'required') ||
+        hasError('firstName', 'minlength') ||
+        hasError('firstName', 'maxlength')
+      ) {
+        <small class="field-error">
+          {{ 'USERS.FORM.ERRORS.FIRST_NAME' | translate }}
+        </small>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="user-last-name">
+        {{ 'USERS.FORM.LAST_NAME' | translate }}
+        <span>*</span>
+      </label>
+
+      <input id="user-last-name" type="text" formControlName="lastName" />
+
+      @if (
+        hasError('lastName', 'required') ||
+        hasError('lastName', 'minlength') ||
+        hasError('lastName', 'maxlength')
+      ) {
+        <small class="field-error">
+          {{ 'USERS.FORM.ERRORS.LAST_NAME' | translate }}
+        </small>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="user-username">
+        {{ 'USERS.FORM.USERNAME' | translate }}
+        <span>*</span>
+      </label>
+
+      <input id="user-username" type="text" formControlName="username" />
+
+      @if (
+        hasError('username', 'required') ||
+        hasError('username', 'minlength') ||
+        hasError('username', 'maxlength')
+      ) {
+        <small class="field-error">
+          {{ 'USERS.FORM.ERRORS.USERNAME' | translate }}
+        </small>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="user-role">
+        {{ 'USERS.FORM.ROLE' | translate }}
+        <span>*</span>
+      </label>
+
+      <div class="select-wrapper">
+        <select id="user-role" formControlName="role">
+          <option value="user">
+            {{ 'USERS.ROLES.USER' | translate }}
+          </option>
+
+          <option value="moderator">
+            {{ 'USERS.ROLES.MODERATOR' | translate }}
+          </option>
+
+          <option value="admin">
+            {{ 'USERS.ROLES.ADMIN' | translate }}
+          </option>
+        </select>
+
+        <i class="pi pi-angle-down"></i>
+      </div>
+    </div>
+
+    <div class="form-field form-field--full">
+      <label for="user-email">
+        {{ 'USERS.FORM.EMAIL' | translate }}
+        <span>*</span>
+      </label>
+
+      <input id="user-email" type="email" formControlName="email" />
+
+      @if (hasError('email', 'required') || hasError('email', 'email')) {
+        <small class="field-error">
+          {{ 'USERS.FORM.ERRORS.EMAIL' | translate }}
+        </small>
+      }
+    </div>
+
+    <div class="form-field form-field--full">
+      <label for="user-phone">
+        {{ 'USERS.FORM.PHONE' | translate }}
+        <span>*</span>
+      </label>
+
+      <input id="user-phone" type="tel" formControlName="phone" />
+
+      @if (hasError('phone', 'required') || hasError('phone', 'minlength')) {
+        <small class="field-error">
+          {{ 'USERS.FORM.ERRORS.PHONE' | translate }}
+        </small>
+      }
+    </div>
+  </div>
+
+  <div class="user-form__actions">
+    <button
+      type="button"
+      class="form-button form-button--secondary"
+      [disabled]="submitting()"
+      (click)="cancel()"
+    >
+      {{ 'COMMON.CANCEL' | translate }}
+    </button>
+
+    <button type="submit" class="form-button form-button--primary" [disabled]="submitting()">
+      @if (submitting()) {
+        <i class="pi pi-spin pi-spinner"></i>
+      }
+
+      {{ user() ? ('USERS.FORM.UPDATE' | translate) : ('USERS.FORM.CREATE' | translate) }}
+    </button>
+  </div>
+</form>
