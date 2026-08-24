@@ -1,6 +1,16 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { catchError, Observable, of, switchMap, tap, throwError } from 'rxjs';
+import {
+  catchError,
+  finalize,
+  map,
+  Observable,
+  of,
+  shareReplay,
+  switchMap,
+  tap,
+  throwError,
+} from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { AuthTokens } from '../../features/auth/models/auth-tokens.model';
@@ -19,6 +29,8 @@ export class AuthService {
   private readonly accessTokenKey = 'retailops-access-token';
 
   private readonly refreshTokenKey = 'retailops-refresh-token';
+
+  private refreshRequest$: Observable<string> | null = null;
 
   readonly currentUser = signal<AuthUser | null>(null);
 
@@ -54,17 +66,11 @@ export class AuthService {
   }
 
   getCurrentUser(): Observable<AuthUser> {
-    const accessToken = this.getAccessToken();
-
-    if (!accessToken) {
+    if (!this.getAccessToken()) {
       return throwError(() => new Error('No access token available'));
     }
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${accessToken}`,
-    });
-
-    return this.http.get<AuthUser>(`${this.apiUrl}/me`, { headers });
+    return this.http.get<AuthUser>(`${this.apiUrl}/me`);
   }
 
   restoreSession(): Observable<AuthUser | null> {
@@ -84,6 +90,41 @@ export class AuthService {
         return of(null);
       }),
     );
+  }
+
+  refreshAccessToken(): Observable<string> {
+    if (this.refreshRequest$) {
+      return this.refreshRequest$;
+    }
+
+    const refreshToken = this.getRefreshToken();
+
+    if (!refreshToken) {
+      this.clearSession();
+
+      return throwError(() => new Error('No refresh token available'));
+    }
+
+    this.refreshRequest$ = this.http
+      .post<AuthTokens>(`${this.apiUrl}/refresh`, {
+        refreshToken,
+        expiresInMins: 30,
+      })
+      .pipe(
+        tap((tokens) => {
+          this.storeTokens(tokens);
+        }),
+        map((tokens) => tokens.accessToken),
+        finalize(() => {
+          this.refreshRequest$ = null;
+        }),
+        shareReplay({
+          bufferSize: 1,
+          refCount: false,
+        }),
+      );
+
+    return this.refreshRequest$;
   }
 
   logout(): void {
