@@ -17,7 +17,7 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { firstValueFrom } from 'rxjs';
 import { routes } from './app.routes';
 import { AuthService } from './core/services/auth';
-
+import { primeUiLicense } from '../environments/primeui-license.generated';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -33,12 +33,15 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor])),
 
     providePrimeNG({
+      license: primeUiLicense,
+
       theme: {
         preset: Aura,
         options: {
           darkModeSelector: '.app-dark',
         },
       },
+
       ripple: true,
     }),
 
