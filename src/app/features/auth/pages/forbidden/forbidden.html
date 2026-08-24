@@ -1,0 +1,25 @@
+<section class="forbidden-page">
+  <div class="forbidden-card">
+    <span class="forbidden-card__icon">
+      <i class="pi pi-lock"></i>
+    </span>
+
+    <span class="forbidden-card__code"> 403 </span>
+
+    <h1>
+      {{ 'AUTH.FORBIDDEN.TITLE' | translate }}
+    </h1>
+
+    <p>
+      {{ 'AUTH.FORBIDDEN.MESSAGE' | translate }}
+    </p>
+
+    <a routerLink="/dashboard" class="forbidden-card__action">
+      <i class="pi pi-arrow-left"></i>
+
+      <span>
+        {{ 'AUTH.FORBIDDEN.ACTION' | translate }}
+      </span>
+    </a>
+  </div>
+</section>

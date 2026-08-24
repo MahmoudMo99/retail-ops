@@ -432,6 +432,11 @@
       "ERROR_MESSAGE": "The username or password is incorrect. Please check your credentials and try again.",
       "DEMO_TITLE": "Demo credentials"
     },
-    "LOGOUT": "Sign out"
+    "LOGOUT": "Sign out",
+    "FORBIDDEN": {
+      "TITLE": "Access denied",
+      "MESSAGE": "You do not have permission to access this area of RetailOps.",
+      "ACTION": "Back to dashboard"
+    }
   }
 }
