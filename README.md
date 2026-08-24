@@ -1,8 +1,8 @@
 # RetailOps
 
-A modern e-commerce operations dashboard built with Angular, PrimeNG, Chart.js, and Bootstrap.
+A modern e-commerce operations dashboard built with Angular, PrimeNG, Chart.js, Bootstrap, and REST APIs.
 
-RetailOps provides a complete admin workspace for managing products, orders, customers, inventory, users, analytics, and application preferences through a responsive and multilingual interface.
+RetailOps provides a complete admin workspace for managing products, orders, customers, inventory, users, analytics, and workspace preferences through a responsive, multilingual, and production-style Angular application.
 
 ## Live Demo
 
@@ -20,11 +20,11 @@ Password: emilyspass
 
 ## Overview
 
-RetailOps is a production-style frontend application that demonstrates the architecture and user experience of a modern e-commerce administration system.
+RetailOps was built as a portfolio project to demonstrate practical Angular development beyond isolated pages and static UI.
 
-The application includes authentication, protected routes, role-based access control, business analytics, inventory monitoring, localization, responsive layouts, theme preferences, global search, operational notifications, and a modular feature-based architecture.
+The application includes authentication, protected routes, refresh-token handling, permission-based access control, REST API integration, business analytics, inventory monitoring, global search, operational notifications, localization, RTL support, responsive layouts, and persistent theme preferences.
 
-The project was designed to demonstrate practical Angular development patterns rather than being a collection of isolated pages.
+The project follows a modular, feature-based Angular architecture using standalone components and lazy-loaded routes.
 
 ---
 
@@ -38,20 +38,19 @@ The project was designed to demonstrate practical Angular development patterns r
 - Recent orders
 - Top-performing products
 - Responsive Chart.js visualizations
-- Locale-aware number and currency formatting
+- Locale-aware numbers, currencies, percentages, and dates
 
 ### Products Management
 
-- Server-side pagination
 - Product search
 - Category filtering
+- Server-side pagination
 - Sorting
 - Product details
-- Add product workflow
-- Edit product workflow
+- Add and edit product workflows
 - Delete confirmation
 - Stock status indicators
-- Responsive product table
+- Responsive PrimeNG table
 
 ### Orders Management
 
@@ -60,42 +59,36 @@ The project was designed to demonstrate practical Angular development patterns r
 - Search and status filtering
 - Order details
 - Order item breakdown
-- Operational order status updates
+- Order status management
 - Responsive order table
 
 ### Customers
 
 - Customer directory
-- Server-side pagination
 - Search
 - Sorting
+- Server-side pagination
 - Customer details
-- Contact information
-- Company information
-- Responsive customer table
+- Contact and company information
 
 ### Inventory Management
 
 - Inventory KPI overview
-- Total product count
-- Total inventory units
+- Total products and units
 - Inventory value calculation
-- In-stock monitoring
-- Low-stock monitoring
-- Out-of-stock monitoring
-- Product stock visualization
-- Stock adjustment workflow
+- In-stock, low-stock, and out-of-stock monitoring
+- Stock-level visualization
 - Inventory filtering
+- Stock adjustment workflow
 
 ### Analytics
 
-- Revenue overview
-- Total orders
-- Customer metrics
+- Revenue metrics
+- Orders and customer metrics
 - Average order value
 - Revenue by category
 - Top-performing products
-- Order status distribution
+- Order-status distribution
 - Inventory health
 - Business insights
 - Responsive Chart.js visualizations
@@ -103,12 +96,10 @@ The project was designed to demonstrate practical Angular development patterns r
 ### Team & Users
 
 - User directory
-- User search
+- Search and sorting
 - Server-side pagination
-- Sorting
 - User details
-- Add user workflow
-- Edit user workflow
+- Add and edit user workflows
 - Delete confirmation
 - Role management
 
@@ -124,25 +115,25 @@ The project was designed to demonstrate practical Angular development patterns r
 
 ---
 
-## Authentication
+## Authentication & Session Management
 
 RetailOps includes a complete frontend authentication flow.
 
-Features include:
+Implemented features include:
 
 - Login workflow
-- Access token handling
-- Refresh token handling
-- Automatic access token refresh
+- Access-token handling
+- Refresh-token handling
+- Automatic access-token refresh
 - HTTP authentication interceptor
 - Session restoration after page refresh
-- Protected application routes
-- Guest route protection
+- Protected routes
+- Guest-only route protection
 - Return URL handling
-- Current authenticated user state
-- Logout workflow
+- Current authenticated-user state
+- Logout
 
-Authentication state is restored when the application starts before protected routes are rendered.
+The application restores the current session during startup before protected application areas are rendered.
 
 ---
 
@@ -156,7 +147,7 @@ Supported roles:
 - Moderator
 - User
 
-Permissions are mapped independently from roles and control access to application areas.
+Permissions are mapped independently from roles and used to control access to application areas.
 
 Examples include:
 
@@ -174,17 +165,17 @@ users.manage
 settings.view
 ```
 
-The application uses permission guards to protect routes and also hides inaccessible navigation items from the sidebar.
+Route guards prevent unauthorized navigation, while the sidebar and global search only expose areas available to the current user.
 
-Unauthorized access is redirected to a dedicated `403 Forbidden` page.
+Unauthorized route access is redirected to a dedicated `403 Forbidden` page.
 
-In a real production environment, these frontend permissions would be complemented by server-side authorization.
+> Frontend RBAC improves user experience and route protection, but a real production backend must also enforce authorization server-side.
 
 ---
 
 ## Global Search
 
-RetailOps includes a global command palette for fast workspace navigation.
+RetailOps includes a command palette for fast workspace navigation.
 
 Open it using:
 
@@ -194,10 +185,10 @@ Ctrl + K
 
 Features include:
 
-- Search across application pages
+- Search across application areas
 - Keyboard navigation
-- Arrow key navigation
-- Enter to open
+- Arrow keys to move through results
+- Enter to open a page
 - Escape to close
 - Permission-aware results
 - English and Arabic search support
@@ -206,46 +197,52 @@ Features include:
 
 ## Operational Notifications
 
-The notification center generates operational inventory alerts based on product stock data.
+The notification center generates inventory-related alerts from API product data.
 
-Notifications include:
+Supported alerts include:
 
-- Low-stock alerts
-- Out-of-stock alerts
+- Low-stock products
+- Out-of-stock products
 - Read/unread state
 - Unread notification indicator
 - Mark all as read
 - Direct navigation to inventory
 
-The notifications are derived from API product data rather than being static UI placeholders.
+This keeps the notification center connected to real application data instead of using static placeholder notifications.
 
 ---
 
-## Internationalization
+## Internationalization, RTL & Themes
 
-RetailOps supports two complete interface languages:
+RetailOps supports:
 
 - English
 - Arabic
+- LTR layouts
+- RTL layouts
+- Light theme
+- Dark theme
+- System theme
 
 The application uses `ngx-translate` for localization.
 
-Language switching automatically updates:
+Language changes automatically update:
 
-- Application text
+- Interface text
 - Layout direction
 - Typography
 - Number formatting
 - Currency formatting
+- Percentage formatting
 - Date formatting
 - Chart labels
 - Chart tooltips
 
-Direction support:
+Supported locales:
 
 ```text
-English → LTR
-Arabic  → RTL
+English → en-US
+Arabic  → ar-EG
 ```
 
 Typography:
@@ -255,25 +252,15 @@ English → Inter
 Arabic  → IBM Plex Sans Arabic
 ```
 
----
+The `System` theme automatically responds to operating-system appearance changes.
 
-## Theme System
-
-RetailOps includes three appearance modes:
-
-- Light
-- Dark
-- System
-
-Theme preferences are persisted locally.
-
-When `System` is selected, the application automatically reacts to operating-system theme changes without requiring a page refresh.
+Language and theme preferences are persisted locally.
 
 ---
 
 ## Responsive Design
 
-RetailOps is designed to work across:
+RetailOps is designed for:
 
 - Desktop
 - Laptop
@@ -284,19 +271,19 @@ Responsive behavior includes:
 
 - Adaptive application shell
 - Mobile sidebar
-- Navigation overlay
+- Navigation backdrop
 - Responsive topbar
-- Responsive tables
+- Scrollable and adaptive data tables
 - Responsive dialogs
-- Adaptive dashboard layouts
-- Responsive charts
-- RTL-aware responsive behavior
+- Adaptive dashboard grids
+- Responsive Chart.js visualizations
+- RTL-aware responsive layouts
 
 ---
 
 ## Tech Stack
 
-### Core
+### Frontend
 
 - Angular 22
 - TypeScript
@@ -384,7 +371,7 @@ The `core` layer contains application-wide infrastructure such as:
 
 ### Layout Layer
 
-The layout layer contains the application shell:
+The layout layer contains shared application-shell components:
 
 - Main layout
 - Sidebar
@@ -394,46 +381,19 @@ The layout layer contains the application shell:
 
 ### Feature Layer
 
-Each business domain is isolated into its own feature.
+Each business domain is isolated inside its own feature.
 
-This keeps the application modular and makes individual features easier to maintain and extend.
-
-RetailOps uses Angular standalone components and lazy-loaded routes throughout the application.
+The application uses Angular standalone components and lazy-loaded routes to keep features modular and independently maintainable.
 
 ---
 
-## Routing
-
-Application features are lazy loaded.
-
-Examples:
-
-```text
-/dashboard
-/products
-/orders
-/customers
-/inventory
-/analytics
-/users
-/settings
-```
-
-Protected application routes require authentication.
-
-Permission-sensitive routes additionally use RBAC permission guards.
-
-Scroll restoration is enabled so navigation between pages starts from the top rather than retaining the previous page position.
-
----
-
-## API and Demo Data
+## API & Demo Data
 
 RetailOps uses the DummyJSON REST API for demonstration purposes.
 
 Read operations use live API data.
 
-Some operations are simulated because DummyJSON does not permanently persist mutations.
+Some mutation operations are simulated because DummyJSON does not permanently persist changes.
 
 These include:
 
@@ -444,48 +404,21 @@ These include:
 - Adding users
 - Updating users
 - Deleting users
-- Order status changes
+- Order-status changes
 
-The application updates its local frontend state after these simulated mutations to demonstrate realistic management workflows.
+The frontend updates its local state after these operations to demonstrate realistic management workflows.
 
-In a production environment, these operations would be connected to a persistent backend and protected with server-side authorization.
-
----
-
-## Locale-Aware Formatting
-
-Currency, numbers, percentages, compact values, and dates are handled through a centralized formatter service.
-
-Supported locales:
-
-```text
-English → en-US
-Arabic  → ar-EG
-```
-
-Formatting is shared across:
-
-- Dashboard KPIs
-- Product prices
-- Orders
-- Inventory
-- Analytics
-- Chart axes
-- Chart tooltips
-- Dates
-- Percentages
-
-This avoids duplicated formatting logic across components.
+In a production environment, these workflows would be connected to a persistent backend with server-side validation and authorization.
 
 ---
 
-## Project Setup
+## Getting Started
 
 ### Prerequisites
 
 Make sure Node.js and npm are installed.
 
-The project was developed with:
+The project was developed using:
 
 ```text
 Node.js 24
@@ -505,9 +438,7 @@ cd retail-ops
 npm install
 ```
 
----
-
-## PrimeUI License
+### PrimeUI License
 
 PrimeNG 22 requires a valid PrimeUI license.
 
@@ -517,57 +448,25 @@ Create a `.env.local` file in the project root:
 .env.local
 ```
 
-Add your PrimeUI license key:
+Add:
 
 ```env
 PRIMEUI_LICENSE_KEY=your_primeui_license_key
 ```
 
-The license value is intentionally excluded from version control.
+The local environment file and generated license configuration are excluded from version control.
 
-A pre-build script generates the local PrimeUI configuration required by the Angular application.
-
-The generated license file is also excluded from Git.
-
----
-
-## Development Server
-
-Start the application with:
+### Start the Development Server
 
 ```bash
 npm start
 ```
 
-Then open:
+Open:
 
 ```text
 http://localhost:4200
 ```
-
----
-
-## Production Build
-
-Create an optimized production build with:
-
-```bash
-npm run build
-```
-
-The application uses Angular production bundle budgets configured for the size of the dashboard application.
-
----
-
-## Available Scripts
-
-### Development
-
-```bash
-npm start
-```
-
-Starts the Angular development server.
 
 ### Production Build
 
@@ -575,41 +474,26 @@ Starts the Angular development server.
 npm run build
 ```
 
-Creates the production application bundle.
-
-### Tests
-
-```bash
-npm test
-```
-
-Runs the configured test suite.
-
 ---
 
 ## Deployment
 
-RetailOps is deployed using Vercel.
+RetailOps is deployed on Vercel.
 
 **Live Application:**  
 https://retail-ops-sigma.vercel.app
 
-The Vercel project uses:
-
-```text
-Framework: Angular
-Build Command: npm run build
-```
-
-The production environment requires:
+The Vercel deployment uses Angular production builds and requires:
 
 ```text
 PRIMEUI_LICENSE_KEY
 ```
 
-as a Vercel environment variable.
+as an environment variable.
 
-SPA rewrites are configured using `vercel.json` so direct navigation and page refreshes work correctly for Angular routes such as:
+SPA rewrites are configured so Angular routes work correctly when opened directly or refreshed.
+
+Examples:
 
 ```text
 /products
@@ -620,77 +504,10 @@ SPA rewrites are configured using `vercel.json` so direct navigation and page re
 
 ---
 
-## Security Notes
-
-The project demonstrates frontend authentication and authorization architecture.
-
-Implemented protections include:
-
-- Protected Angular routes
-- Guest-only routes
-- Permission guards
-- Token injection through HTTP interceptor
-- Automatic access-token refresh
-- Session restoration
-- Secure exclusion of the PrimeUI license from Git
-
-For a real production system, authorization must also be enforced by the backend because frontend RBAC alone cannot provide complete security.
-
----
-
-## Highlights
-
-- Angular 22 standalone architecture
-- Feature-based project structure
-- Lazy-loaded routes
-- Responsive application shell
-- Authentication flow
-- Access and refresh tokens
-- Automatic token refresh
-- HTTP authentication interceptor
-- Session restoration
-- Permission-based RBAC
-- Protected routes
-- 403 access-denied flow
-- Global command palette
-- Operational inventory notifications
-- English and Arabic localization
-- Complete RTL support
-- Light, Dark, and System themes
-- Chart.js analytics
-- Server-side API pagination
-- Reactive Forms
-- CRUD-style management workflows
-- Centralized locale-aware formatting
-- Responsive tables and dialogs
-- Production build configuration
-- Vercel deployment
-
----
-
-## Future Improvements
-
-Possible future enhancements include:
-
-- Persistent backend integration
-- Server-side RBAC enforcement
-- Real order management workflows
-- Real-time notifications
-- Advanced global search across business records
-- Exportable analytics reports
-- Audit logs
-- Activity history
-- Advanced user permissions
-- Automated unit and integration testing
-- End-to-end testing
-- CI/CD quality checks
-
----
-
 ## Author
 
 **Mahmoud Mohamed**
 
 Software Engineer specializing in Frontend Development and Angular.
 
-RetailOps was built as a portfolio project to demonstrate modern Angular architecture, scalable frontend organization, responsive UI development, authentication, authorization, internationalization, analytics, and real-world e-commerce administration workflows.
+RetailOps was built as a portfolio project to demonstrate modern Angular architecture, authentication, authorization, REST API integration, responsive UI development, internationalization, analytics, and real-world e-commerce operations workflows.
