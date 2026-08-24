@@ -290,5 +290,60 @@
       "ERROR_REMOVE": "You cannot remove more units than are currently available.",
       "ERROR_QUANTITY": "Enter a valid whole quantity."
     }
+  },
+  "ANALYTICS": {
+    "INSIGHTS": "BUSINESS ANALYTICS",
+    "TITLE": "Analytics",
+    "SUBTITLE": "Explore revenue, order performance, inventory health and business insights.",
+    "LOADING": "Loading analytics...",
+    "ERROR_TITLE": "Unable to load analytics",
+    "ERROR_MESSAGE": "Something went wrong while preparing your analytics.",
+    "KPI": {
+      "REVENUE": "Total revenue",
+      "REVENUE_HINT": "Revenue generated across all orders",
+      "ORDERS": "Total orders",
+      "ORDERS_HINT": "Orders included in this analysis",
+      "CUSTOMERS": "Customers",
+      "CUSTOMERS_HINT": "Customers currently available",
+      "AOV": "Average order value",
+      "AOV_HINT": "Average revenue generated per order"
+    },
+    "CATEGORY_REVENUE": {
+      "TITLE": "Revenue by category",
+      "SUBTITLE": "Categories generating the highest order revenue"
+    },
+    "ORDER_STATUS": {
+      "TITLE": "Order status",
+      "SUBTITLE": "Operational distribution of current orders"
+    },
+    "TOP_PRODUCTS": {
+      "TITLE": "Top products",
+      "SUBTITLE": "Highest revenue-generating products",
+      "UNITS": "units sold"
+    },
+    "INVENTORY": {
+      "TITLE": "Inventory health",
+      "SUBTITLE": "Current product availability distribution",
+      "IN_STOCK": "In stock",
+      "LOW_STOCK": "Low stock",
+      "OUT_OF_STOCK": "Out of stock"
+    },
+    "STATUS": {
+      "PAID": "Paid",
+      "PROCESSING": "Processing",
+      "PENDING": "Pending",
+      "CANCELLED": "Cancelled"
+    },
+    "BUSINESS_INSIGHTS": {
+      "TITLE": "Business insights",
+      "SUBTITLE": "Highlights derived from current operational data",
+      "TOP_CATEGORY": "Top revenue category",
+      "REVENUE_GENERATED": "revenue generated",
+      "TOP_PRODUCT": "Top performing product",
+      "UNITS_SOLD": "units sold",
+      "INVENTORY_ATTENTION": "Inventory attention",
+      "PRODUCTS": "products",
+      "INVENTORY_HINT": "Products currently low or out of stock"
+    }
   }
 }

@@ -1,1 +1,359 @@
-<p>analytics works!</p>
+<section class="analytics-page">
+  <header class="analytics-header">
+    <div class="analytics-header__content">
+      <span class="analytics-header__eyebrow">
+        {{ 'ANALYTICS.INSIGHTS' | translate }}
+      </span>
+
+      <h1>
+        {{ 'ANALYTICS.TITLE' | translate }}
+      </h1>
+
+      <p>
+        {{ 'ANALYTICS.SUBTITLE' | translate }}
+      </p>
+    </div>
+  </header>
+
+  @if (error()) {
+    <div class="analytics-error">
+      <span>
+        <i class="pi pi-exclamation-triangle"></i>
+      </span>
+
+      <div>
+        <strong>
+          {{ 'ANALYTICS.ERROR_TITLE' | translate }}
+        </strong>
+
+        <p>
+          {{ 'ANALYTICS.ERROR_MESSAGE' | translate }}
+        </p>
+      </div>
+    </div>
+  } @else if (loading()) {
+    <div class="analytics-loading">
+      <i class="pi pi-spin pi-spinner"></i>
+
+      <span>
+        {{ 'ANALYTICS.LOADING' | translate }}
+      </span>
+    </div>
+  } @else if (data(); as analytics) {
+    <div class="analytics-kpis">
+      <article class="analytics-kpi">
+        <span class="analytics-kpi__icon">
+          <i class="pi pi-dollar"></i>
+        </span>
+
+        <div>
+          <span>
+            {{ 'ANALYTICS.KPI.REVENUE' | translate }}
+          </span>
+
+          <strong>
+            {{ formatCurrency(analytics.kpis.totalRevenue) }}
+          </strong>
+
+          <small>
+            {{ 'ANALYTICS.KPI.REVENUE_HINT' | translate }}
+          </small>
+        </div>
+      </article>
+
+      <article class="analytics-kpi">
+        <span class="analytics-kpi__icon">
+          <i class="pi pi-shopping-cart"></i>
+        </span>
+
+        <div>
+          <span>
+            {{ 'ANALYTICS.KPI.ORDERS' | translate }}
+          </span>
+
+          <strong>
+            {{ analytics.kpis.totalOrders }}
+          </strong>
+
+          <small>
+            {{ 'ANALYTICS.KPI.ORDERS_HINT' | translate }}
+          </small>
+        </div>
+      </article>
+
+      <article class="analytics-kpi">
+        <span class="analytics-kpi__icon">
+          <i class="pi pi-users"></i>
+        </span>
+
+        <div>
+          <span>
+            {{ 'ANALYTICS.KPI.CUSTOMERS' | translate }}
+          </span>
+
+          <strong>
+            {{ analytics.kpis.totalCustomers }}
+          </strong>
+
+          <small>
+            {{ 'ANALYTICS.KPI.CUSTOMERS_HINT' | translate }}
+          </small>
+        </div>
+      </article>
+
+      <article class="analytics-kpi">
+        <span class="analytics-kpi__icon">
+          <i class="pi pi-chart-line"></i>
+        </span>
+
+        <div>
+          <span>
+            {{ 'ANALYTICS.KPI.AOV' | translate }}
+          </span>
+
+          <strong>
+            {{ formatCurrency(analytics.kpis.averageOrderValue) }}
+          </strong>
+
+          <small>
+            {{ 'ANALYTICS.KPI.AOV_HINT' | translate }}
+          </small>
+        </div>
+      </article>
+    </div>
+
+    <div class="analytics-main-grid">
+      <article class="analytics-card analytics-card--revenue">
+        <div class="analytics-card__header">
+          <div>
+            <h2>
+              {{ 'ANALYTICS.CATEGORY_REVENUE.TITLE' | translate }}
+            </h2>
+
+            <p>
+              {{ 'ANALYTICS.CATEGORY_REVENUE.SUBTITLE' | translate }}
+            </p>
+          </div>
+        </div>
+
+        <app-category-revenue-chart [categories]="analytics.categories" />
+      </article>
+
+      <article class="analytics-card">
+        <div class="analytics-card__header">
+          <div>
+            <h2>
+              {{ 'ANALYTICS.ORDER_STATUS.TITLE' | translate }}
+            </h2>
+
+            <p>
+              {{ 'ANALYTICS.ORDER_STATUS.SUBTITLE' | translate }}
+            </p>
+          </div>
+        </div>
+
+        <app-order-status-chart [statuses]="analytics.orderStatuses" />
+
+        <div class="chart-legend">
+          @for (status of analytics.orderStatuses; track status.status) {
+            <div>
+              <span class="legend-dot" [class]="'legend-dot legend-dot--' + status.status"></span>
+
+              <span>
+                {{ getStatusKey(status.status) | translate }}
+              </span>
+
+              <strong>
+                {{ status.count }}
+              </strong>
+            </div>
+          }
+        </div>
+      </article>
+    </div>
+
+    <div class="analytics-secondary-grid">
+      <article class="analytics-card">
+        <div class="analytics-card__header">
+          <div>
+            <h2>
+              {{ 'ANALYTICS.TOP_PRODUCTS.TITLE' | translate }}
+            </h2>
+
+            <p>
+              {{ 'ANALYTICS.TOP_PRODUCTS.SUBTITLE' | translate }}
+            </p>
+          </div>
+        </div>
+
+        <div class="top-products">
+          @for (product of analytics.topProducts; track product.id; let index = $index) {
+            <div class="top-product">
+              <span class="top-product__rank">
+                {{ index + 1 }}
+              </span>
+
+              <img [src]="product.thumbnail" [alt]="product.title" />
+
+              <div class="top-product__content">
+                <strong>
+                  {{ product.title }}
+                </strong>
+
+                <span>
+                  {{ product.quantity }}
+                  {{ 'ANALYTICS.TOP_PRODUCTS.UNITS' | translate }}
+                </span>
+              </div>
+
+              <strong class="top-product__revenue">
+                {{ formatCurrency(product.revenue) }}
+              </strong>
+            </div>
+          }
+        </div>
+      </article>
+
+      <article class="analytics-card">
+        <div class="analytics-card__header">
+          <div>
+            <h2>
+              {{ 'ANALYTICS.INVENTORY.TITLE' | translate }}
+            </h2>
+
+            <p>
+              {{ 'ANALYTICS.INVENTORY.SUBTITLE' | translate }}
+            </p>
+          </div>
+        </div>
+
+        <app-inventory-health-chart [inventory]="analytics.inventory" />
+
+        <div class="inventory-legend">
+          <div>
+            <span class="legend-dot legend-dot--stock"></span>
+
+            <span>
+              {{ 'ANALYTICS.INVENTORY.IN_STOCK' | translate }}
+            </span>
+
+            <strong>
+              {{ analytics.inventory.inStock }}
+            </strong>
+          </div>
+
+          <div>
+            <span class="legend-dot legend-dot--low"></span>
+
+            <span>
+              {{ 'ANALYTICS.INVENTORY.LOW_STOCK' | translate }}
+            </span>
+
+            <strong>
+              {{ analytics.inventory.lowStock }}
+            </strong>
+          </div>
+
+          <div>
+            <span class="legend-dot legend-dot--empty"></span>
+
+            <span>
+              {{ 'ANALYTICS.INVENTORY.OUT_OF_STOCK' | translate }}
+            </span>
+
+            <strong>
+              {{ analytics.inventory.outOfStock }}
+            </strong>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <section class="business-insights">
+      <div class="business-insights__heading">
+        <span>
+          <i class="pi pi-sparkles"></i>
+        </span>
+
+        <div>
+          <h2>
+            {{ 'ANALYTICS.BUSINESS_INSIGHTS.TITLE' | translate }}
+          </h2>
+
+          <p>
+            {{ 'ANALYTICS.BUSINESS_INSIGHTS.SUBTITLE' | translate }}
+          </p>
+        </div>
+      </div>
+
+      <div class="insights-grid">
+        @if (topCategory(); as category) {
+          <article class="insight-card">
+            <span class="insight-card__icon">
+              <i class="pi pi-chart-bar"></i>
+            </span>
+
+            <div>
+              <span>
+                {{ 'ANALYTICS.BUSINESS_INSIGHTS.TOP_CATEGORY' | translate }}
+              </span>
+
+              <strong>
+                {{ category.category }}
+              </strong>
+
+              <small>
+                {{ formatCurrency(category.revenue) }}
+                {{ 'ANALYTICS.BUSINESS_INSIGHTS.REVENUE_GENERATED' | translate }}
+              </small>
+            </div>
+          </article>
+        }
+
+        @if (topProduct(); as product) {
+          <article class="insight-card">
+            <span class="insight-card__icon">
+              <i class="pi pi-star"></i>
+            </span>
+
+            <div>
+              <span>
+                {{ 'ANALYTICS.BUSINESS_INSIGHTS.TOP_PRODUCT' | translate }}
+              </span>
+
+              <strong>
+                {{ product.title }}
+              </strong>
+
+              <small>
+                {{ product.quantity }}
+                {{ 'ANALYTICS.BUSINESS_INSIGHTS.UNITS_SOLD' | translate }}
+              </small>
+            </div>
+          </article>
+        }
+
+        <article class="insight-card" [class.insight-card--warning]="inventoryAttention() > 0">
+          <span class="insight-card__icon">
+            <i class="pi pi-exclamation-circle"></i>
+          </span>
+
+          <div>
+            <span>
+              {{ 'ANALYTICS.BUSINESS_INSIGHTS.INVENTORY_ATTENTION' | translate }}
+            </span>
+
+            <strong>
+              {{ inventoryAttention() }}
+              {{ 'ANALYTICS.BUSINESS_INSIGHTS.PRODUCTS' | translate }}
+            </strong>
+
+            <small>
+              {{ 'ANALYTICS.BUSINESS_INSIGHTS.INVENTORY_HINT' | translate }}
+            </small>
+          </div>
+        </article>
+      </div>
+    </section>
+  }
+</section>
