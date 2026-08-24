@@ -1,30 +1,33 @@
 <aside class="sidebar">
-  <div class="sidebar__header">
-    <a routerLink="/dashboard" class="brand" aria-label="RetailOps Dashboard">
-      <span class="brand__logo">
-        <i class="pi pi-chart-line"></i>
-      </span>
+  <div class="sidebar__brand">
+    <a routerLink="/dashboard" class="brand">
+      <span class="brand__logo"> R </span>
 
-      <span class="brand__content">
-        <strong class="brand__name"> Retail<span>Ops</span> </strong>
+      <div class="brand__content">
+        <strong class="brand__name"> RetailOps </strong>
 
-        <small class="brand__subtitle">
-          {{ 'APP.SUBTITLE' | translate }}
-        </small>
-      </span>
+        <span> Commerce Operations </span>
+      </div>
     </a>
   </div>
 
-  <nav class="sidebar__nav">
+  <nav class="sidebar__nav" aria-label="Main navigation">
     @for (section of navSections; track section.label) {
-      <div class="nav-section">
-        <p class="nav-section__title">
+      <section class="nav-section">
+        <span class="nav-section__label">
           {{ section.label | translate }}
-        </p>
+        </span>
 
         <div class="nav-section__items">
           @for (item of section.items; track item.route) {
-            <a class="nav-item" [routerLink]="item.route" routerLinkActive="nav-item--active">
+            <a
+              class="nav-item"
+              [routerLink]="item.route"
+              routerLinkActive="nav-item--active"
+              [routerLinkActiveOptions]="{
+                exact: item.route === '/dashboard',
+              }"
+            >
               <span class="nav-item__icon">
                 <i [class]="item.icon"></i>
               </span>
@@ -35,22 +38,34 @@
             </a>
           }
         </div>
-      </div>
+      </section>
     }
   </nav>
 
   <div class="sidebar__footer">
-    <div class="user-card">
-      <div class="user-card__avatar">MM</div>
+    @if (currentUser(); as user) {
+      <div class="sidebar-user">
+        <div class="sidebar-user__avatar">
+          @if (user.image) {
+            <img [src]="user.image" [alt]="user.firstName + ' ' + user.lastName" />
+          } @else {
+            <span>
+              {{ userInitials() }}
+            </span>
+          }
+        </div>
 
-      <div class="user-card__info">
-        <strong>Mahmoud Mohamed</strong>
-        <span>{{ 'USER.ADMINISTRATOR' | translate }}</span>
+        <div class="sidebar-user__info">
+          <strong>
+            {{ user.firstName }}
+            {{ user.lastName }}
+          </strong>
+
+          <span>
+            {{ getRoleKey(user.role) | translate }}
+          </span>
+        </div>
       </div>
-
-      <button class="user-card__menu" type="button" aria-label="User menu">
-        <i class="pi pi-ellipsis-v"></i>
-      </button>
-    </div>
+    }
   </div>
 </aside>

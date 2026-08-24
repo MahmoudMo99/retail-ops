@@ -3,13 +3,13 @@
     <button
       type="button"
       class="topbar__menu-btn"
-      aria-label="Open navigation"
+      aria-label="Toggle navigation"
       (click)="onMenuToggle()"
     >
       <i class="pi pi-bars"></i>
     </button>
 
-    <div class="topbar__title">
+    <div class="topbar__page-info">
       <h2>
         {{ titleKey() | translate }}
       </h2>
@@ -20,69 +20,89 @@
     </div>
   </div>
 
-  <div class="topbar__actions">
-    <div class="topbar__search">
+  <div class="topbar__end">
+    <div class="topbar-search">
       <i class="pi pi-search"></i>
 
       <input
         type="search"
-        [placeholder]="'TOPBAR.SEARCH' | translate"
-        [attr.aria-label]="'TOPBAR.SEARCH' | translate"
+        [placeholder]="'TOPBAR.SEARCH_PLACEHOLDER' | translate"
+        [attr.aria-label]="'TOPBAR.SEARCH_PLACEHOLDER' | translate"
       />
 
-      <span class="search-shortcut"> Ctrl K </span>
+      <span class="topbar-search__shortcut"> Ctrl K </span>
     </div>
 
-    <button
-      type="button"
-      class="topbar-action"
-      aria-label="Change language"
-      (click)="languageService.toggleLanguage()"
-    >
-      <i class="pi pi-globe"></i>
+    <div class="topbar__actions">
+      <button
+        type="button"
+        class="topbar__action-btn topbar__language-btn"
+        [attr.aria-label]="'TOPBAR.SWITCH_LANGUAGE' | translate"
+        (click)="languageService.toggleLanguage()"
+      >
+        <i class="pi pi-language"></i>
 
-      <span class="topbar-action__text">
-        {{ languageService.currentLanguage() === 'en' ? 'AR' : 'EN' }}
-      </span>
-    </button>
+        <span>
+          {{ languageService.currentLanguage() === 'en' ? 'AR' : 'EN' }}
+        </span>
+      </button>
 
-    <button
-      type="button"
-      class="topbar-action topbar-action--icon"
-      [attr.aria-label]="
-        themeService.isDark()
-          ? ('TOPBAR.SWITCH_TO_LIGHT' | translate)
-          : ('TOPBAR.SWITCH_TO_DARK' | translate)
-      "
-      (click)="themeService.toggleTheme()"
-    >
-      <i
-        class="pi"
-        [class.pi-sun]="themeService.isDark()"
-        [class.pi-moon]="!themeService.isDark()"
-      ></i>
-    </button>
+      <button
+        type="button"
+        class="topbar__action-btn"
+        [attr.aria-label]="'TOPBAR.SWITCH_THEME' | translate"
+        (click)="themeService.toggleTheme()"
+      >
+        <i
+          class="pi"
+          [class.pi-moon]="themeService.resolvedTheme() === 'light'"
+          [class.pi-sun]="themeService.resolvedTheme() === 'dark'"
+        ></i>
+      </button>
 
-    <button
-      type="button"
-      class="topbar-action topbar-action--icon notification-button"
-      aria-label="Notifications"
-    >
-      <i class="pi pi-bell"></i>
-      <span class="notification-dot"></span>
-    </button>
+      <button
+        type="button"
+        class="topbar__action-btn topbar__notification-btn"
+        [attr.aria-label]="'TOPBAR.NOTIFICATIONS' | translate"
+      >
+        <i class="pi pi-bell"></i>
 
-    <div class="topbar__divider"></div>
+        <span class="notification-dot"></span>
+      </button>
 
-    <button type="button" class="profile-button" aria-label="Open profile menu">
-      <span class="profile-button__avatar"> MM </span>
+      @if (currentUser(); as user) {
+        <div class="topbar-profile">
+          <div class="topbar-profile__avatar">
+            @if (user.image) {
+              <img [src]="user.image" [alt]="user.firstName + ' ' + user.lastName" />
+            } @else {
+              <span>
+                {{ userInitials() }}
+              </span>
+            }
+          </div>
 
-      <span class="profile-button__info">
-        <strong>Mahmoud</strong>
-        <small>Admin</small>
-      </span>
+          <div class="topbar-profile__info">
+            <strong>
+              {{ user.firstName }}
+            </strong>
 
-      <i class="pi pi-angle-down profile-button__arrow"></i>
-    </button>
+            <span>
+              {{ getRoleKey(user.role) | translate }}
+            </span>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="topbar__action-btn topbar__logout-btn"
+          [attr.aria-label]="'AUTH.LOGOUT' | translate"
+          [title]="'AUTH.LOGOUT' | translate"
+          (click)="logout()"
+        >
+          <i class="pi pi-sign-out"></i>
+        </button>
+      }
+    </div>
   </div>
 </header>

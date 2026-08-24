@@ -32,7 +32,11 @@
     "INVENTORY_SUBTITLE": "Monitor stock levels and availability",
     "ANALYTICS_SUBTITLE": "Explore business performance and insights",
     "USERS_SUBTITLE": "Manage team members and permissions",
-    "SETTINGS_SUBTITLE": "Manage your application preferences"
+    "SETTINGS_SUBTITLE": "Manage your application preferences",
+    "SEARCH_PLACEHOLDER": "Search anything...",
+    "SWITCH_LANGUAGE": "Switch language",
+    "SWITCH_THEME": "Switch theme",
+    "NOTIFICATIONS": "Notifications"
   },
   "USER": {
     "ADMINISTRATOR": "Administrator"
@@ -397,5 +401,37 @@
       "MESSAGE": "Are you sure you want to delete {{name}}? This action cannot be undone.",
       "CONFIRM": "Delete user"
     }
+  },
+  "AUTH": {
+    "SHOWCASE": {
+      "BADGE": "MODERN COMMERCE OPERATIONS",
+      "TITLE": "Run your store operations from one place.",
+      "SUBTITLE": "Monitor products, orders, customers, inventory and business performance through a unified operations workspace.",
+      "ANALYTICS_TITLE": "Business analytics",
+      "ANALYTICS_TEXT": "Track revenue, order performance and operational insights.",
+      "OPERATIONS_TITLE": "Unified operations",
+      "OPERATIONS_TEXT": "Manage products, customers, orders and inventory from one workspace.",
+      "ACCESS_TITLE": "Controlled access",
+      "ACCESS_TEXT": "Manage team accounts and role-based access across the platform."
+    },
+    "LOGIN": {
+      "WELCOME": "WELCOME BACK",
+      "TITLE": "Sign in to RetailOps",
+      "SUBTITLE": "Enter your account credentials to continue to your workspace.",
+      "USERNAME": "Username",
+      "USERNAME_PLACEHOLDER": "Enter your username",
+      "USERNAME_ERROR": "Enter a valid username.",
+      "PASSWORD": "Password",
+      "PASSWORD_PLACEHOLDER": "Enter your password",
+      "PASSWORD_ERROR": "Password must contain at least 6 characters.",
+      "SHOW_PASSWORD": "Show password",
+      "HIDE_PASSWORD": "Hide password",
+      "SIGN_IN": "Sign in",
+      "SIGNING_IN": "Signing in...",
+      "ERROR_TITLE": "Unable to sign in",
+      "ERROR_MESSAGE": "The username or password is incorrect. Please check your credentials and try again.",
+      "DEMO_TITLE": "Demo credentials"
+    },
+    "LOGOUT": "Sign out"
   }
 }

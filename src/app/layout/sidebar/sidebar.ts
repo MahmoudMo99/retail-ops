@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+
+import { AuthService } from '../../core/services/auth';
+import { AuthUserRole } from '../../features/auth/models/auth-user.model';
 
 interface NavItem {
   label: string;
@@ -20,13 +23,27 @@ interface NavSection {
   styleUrl: './sidebar.scss',
 })
 export class Sidebar {
+  readonly authService = inject(AuthService);
+
+  readonly currentUser = this.authService.currentUser;
+
+  readonly userInitials = computed(() => {
+    const user = this.currentUser();
+
+    if (!user) {
+      return '';
+    }
+
+    return (user.firstName.charAt(0) + user.lastName.charAt(0)).toUpperCase();
+  });
+
   readonly navSections: NavSection[] = [
     {
       label: 'NAV.OVERVIEW',
       items: [
         {
           label: 'NAV.DASHBOARD',
-          icon: 'pi pi-th-large',
+          icon: 'pi pi-home',
           route: '/dashboard',
         },
       ],
@@ -82,4 +99,8 @@ export class Sidebar {
       ],
     },
   ];
+
+  getRoleKey(role: AuthUserRole): string {
+    return `USERS.ROLES.${role.toUpperCase()}`;
+  }
 }

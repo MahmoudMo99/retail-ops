@@ -1,5 +1,10 @@
 import { provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import {
+  ApplicationConfig,
+  inject,
+  provideAppInitializer,
+  provideBrowserGlobalErrorListeners,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import Aura from '@primeuix/themes/aura';
@@ -8,11 +13,19 @@ import { providePrimeNG } from 'primeng/config';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import { firstValueFrom } from 'rxjs';
 import { routes } from './app.routes';
+import { AuthService } from './core/services/auth';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
+
+    provideAppInitializer(() => {
+      const authService = inject(AuthService);
+
+      return firstValueFrom(authService.restoreSession());
+    }),
 
     provideRouter(routes),
 

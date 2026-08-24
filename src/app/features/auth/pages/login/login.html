@@ -1,0 +1,264 @@
+<div class="login-page">
+  <header class="login-toolbar">
+    <a class="login-brand" aria-label="RetailOps">
+      <span class="login-brand__logo"> R </span>
+
+      <span> RetailOps </span>
+    </a>
+
+    <div class="login-toolbar__actions">
+      <button
+        type="button"
+        class="toolbar-action"
+        [attr.aria-label]="'TOPBAR.SWITCH_LANGUAGE' | translate"
+        (click)="languageService.toggleLanguage()"
+      >
+        <i class="pi pi-language"></i>
+
+        <span>
+          {{ languageService.currentLanguage() === 'en' ? 'AR' : 'EN' }}
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="toolbar-action toolbar-action--icon"
+        [attr.aria-label]="'TOPBAR.SWITCH_THEME' | translate"
+        (click)="themeService.toggleTheme()"
+      >
+        <i
+          class="pi"
+          [class.pi-moon]="themeService.resolvedTheme() === 'light'"
+          [class.pi-sun]="themeService.resolvedTheme() === 'dark'"
+        ></i>
+      </button>
+    </div>
+  </header>
+
+  <main class="login-main">
+    <section class="login-showcase">
+      <div class="login-showcase__content">
+        <span class="showcase-badge">
+          <i class="pi pi-sparkles"></i>
+
+          {{ 'AUTH.SHOWCASE.BADGE' | translate }}
+        </span>
+
+        <h1>
+          {{ 'AUTH.SHOWCASE.TITLE' | translate }}
+        </h1>
+
+        <p>
+          {{ 'AUTH.SHOWCASE.SUBTITLE' | translate }}
+        </p>
+
+        <div class="showcase-features">
+          <div class="showcase-feature">
+            <span>
+              <i class="pi pi-chart-line"></i>
+            </span>
+
+            <div>
+              <strong>
+                {{ 'AUTH.SHOWCASE.ANALYTICS_TITLE' | translate }}
+              </strong>
+
+              <p>
+                {{ 'AUTH.SHOWCASE.ANALYTICS_TEXT' | translate }}
+              </p>
+            </div>
+          </div>
+
+          <div class="showcase-feature">
+            <span>
+              <i class="pi pi-box"></i>
+            </span>
+
+            <div>
+              <strong>
+                {{ 'AUTH.SHOWCASE.OPERATIONS_TITLE' | translate }}
+              </strong>
+
+              <p>
+                {{ 'AUTH.SHOWCASE.OPERATIONS_TEXT' | translate }}
+              </p>
+            </div>
+          </div>
+
+          <div class="showcase-feature">
+            <span>
+              <i class="pi pi-shield"></i>
+            </span>
+
+            <div>
+              <strong>
+                {{ 'AUTH.SHOWCASE.ACCESS_TITLE' | translate }}
+              </strong>
+
+              <p>
+                {{ 'AUTH.SHOWCASE.ACCESS_TEXT' | translate }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="login-section">
+      <div class="login-card">
+        <div class="login-card__heading">
+          <span class="login-card__eyebrow">
+            {{ 'AUTH.LOGIN.WELCOME' | translate }}
+          </span>
+
+          <h2>
+            {{ 'AUTH.LOGIN.TITLE' | translate }}
+          </h2>
+
+          <p>
+            {{ 'AUTH.LOGIN.SUBTITLE' | translate }}
+          </p>
+        </div>
+
+        @if (loginError()) {
+          <div class="login-error" role="alert">
+            <span>
+              <i class="pi pi-exclamation-circle"></i>
+            </span>
+
+            <div>
+              <strong>
+                {{ 'AUTH.LOGIN.ERROR_TITLE' | translate }}
+              </strong>
+
+              <p>
+                {{ 'AUTH.LOGIN.ERROR_MESSAGE' | translate }}
+              </p>
+            </div>
+          </div>
+        }
+
+        <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
+          <div class="form-field">
+            <label for="login-username">
+              {{ 'AUTH.LOGIN.USERNAME' | translate }}
+            </label>
+
+            <div
+              class="form-control-wrapper"
+              [class.form-control-wrapper--invalid]="
+                form.controls.username.touched && form.controls.username.invalid
+              "
+            >
+              <i class="pi pi-user"></i>
+
+              <input
+                id="login-username"
+                type="text"
+                formControlName="username"
+                autocomplete="username"
+                [placeholder]="'AUTH.LOGIN.USERNAME_PLACEHOLDER' | translate"
+              />
+            </div>
+
+            @if (hasError('username', 'required') || hasError('username', 'minlength')) {
+              <small class="field-error">
+                {{ 'AUTH.LOGIN.USERNAME_ERROR' | translate }}
+              </small>
+            }
+          </div>
+
+          <div class="form-field">
+            <label for="login-password">
+              {{ 'AUTH.LOGIN.PASSWORD' | translate }}
+            </label>
+
+            <div
+              class="form-control-wrapper"
+              [class.form-control-wrapper--invalid]="
+                form.controls.password.touched && form.controls.password.invalid
+              "
+            >
+              <i class="pi pi-lock"></i>
+
+              <input
+                id="login-password"
+                [type]="passwordVisible() ? 'text' : 'password'"
+                formControlName="password"
+                autocomplete="current-password"
+                [placeholder]="'AUTH.LOGIN.PASSWORD_PLACEHOLDER' | translate"
+              />
+
+              <button
+                type="button"
+                class="password-toggle"
+                [attr.aria-label]="
+                  passwordVisible()
+                    ? ('AUTH.LOGIN.HIDE_PASSWORD' | translate)
+                    : ('AUTH.LOGIN.SHOW_PASSWORD' | translate)
+                "
+                (click)="togglePassword()"
+              >
+                <i
+                  class="pi"
+                  [class.pi-eye]="!passwordVisible()"
+                  [class.pi-eye-slash]="passwordVisible()"
+                ></i>
+              </button>
+            </div>
+
+            @if (hasError('password', 'required') || hasError('password', 'minlength')) {
+              <small class="field-error">
+                {{ 'AUTH.LOGIN.PASSWORD_ERROR' | translate }}
+              </small>
+            }
+          </div>
+
+          <button type="submit" class="login-submit" [disabled]="loading()">
+            @if (loading()) {
+              <i class="pi pi-spin pi-spinner"></i>
+
+              <span>
+                {{ 'AUTH.LOGIN.SIGNING_IN' | translate }}
+              </span>
+            } @else {
+              <span>
+                {{ 'AUTH.LOGIN.SIGN_IN' | translate }}
+              </span>
+
+              <i class="pi pi-arrow-right"></i>
+            }
+          </button>
+        </form>
+
+        <div class="login-demo">
+          <div class="login-demo__heading">
+            <i class="pi pi-info-circle"></i>
+
+            <span>
+              {{ 'AUTH.LOGIN.DEMO_TITLE' | translate }}
+            </span>
+          </div>
+
+          <div class="login-demo__credentials">
+            <span>
+              <small>
+                {{ 'AUTH.LOGIN.USERNAME' | translate }}
+              </small>
+
+              <strong> emilys </strong>
+            </span>
+
+            <span>
+              <small>
+                {{ 'AUTH.LOGIN.PASSWORD' | translate }}
+              </small>
+
+              <strong> emilyspass </strong>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
