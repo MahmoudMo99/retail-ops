@@ -438,5 +438,34 @@
       "MESSAGE": "You do not have permission to access this area of RetailOps.",
       "ACTION": "Back to dashboard"
     }
+  },
+  "SETTINGS": {
+    "PREFERENCES": "WORKSPACE PREFERENCES",
+    "TITLE": "Settings",
+    "SUBTITLE": "Personalize your RetailOps workspace and manage your account preferences.",
+    "APPEARANCE": {
+      "TITLE": "Appearance",
+      "SUBTITLE": "Choose how RetailOps looks on this device.",
+      "LIGHT": "Light",
+      "DARK": "Dark",
+      "SYSTEM": "System"
+    },
+    "LANGUAGE": {
+      "TITLE": "Language & direction",
+      "SUBTITLE": "Choose your preferred workspace language.",
+      "ENGLISH_HINT": "English interface with left-to-right layout",
+      "ARABIC_HINT": "واجهة عربية كاملة من اليمين إلى اليسار"
+    },
+    "ACCOUNT": {
+      "TITLE": "Your account",
+      "SUBTITLE": "Information about your current RetailOps session.",
+      "EMAIL": "Email address",
+      "USERNAME": "Username",
+      "ROLE": "Account role"
+    },
+    "AUTO_SAVE": {
+      "TITLE": "Preferences save automatically",
+      "MESSAGE": "Appearance and language changes are applied immediately and remembered on this device."
+    }
   }
 }

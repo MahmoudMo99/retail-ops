@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { computed, DestroyRef, effect, inject, Injectable, signal } from '@angular/core';
 
 export type ThemePreference = 'light' | 'dark' | 'system';
+
 export type ResolvedTheme = 'light' | 'dark';
 
 @Injectable({
@@ -9,66 +10,69 @@ export type ResolvedTheme = 'light' | 'dark';
 })
 export class ThemeService {
   private readonly document = inject(DOCUMENT);
+
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly storageKey = 'retailops-theme';
 
-  private readonly mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  private readonly mediaQuery = this.document.defaultView?.matchMedia(
+    '(prefers-color-scheme: dark)',
+  );
 
-  private readonly systemPrefersDark = signal(this.mediaQuery.matches);
+  private readonly systemDark = signal(this.mediaQuery?.matches ?? false);
 
-  readonly preference = signal<ThemePreference>(this.getInitialTheme());
+  readonly preference = signal<ThemePreference>(this.getInitialPreference());
 
   readonly resolvedTheme = computed<ResolvedTheme>(() => {
     const preference = this.preference();
 
     if (preference === 'system') {
-      return this.systemPrefersDark() ? 'dark' : 'light';
+      return this.systemDark() ? 'dark' : 'light';
     }
 
     return preference;
   });
 
-  readonly isDark = computed(() => this.resolvedTheme() === 'dark');
-
   constructor() {
-    this.mediaQuery.addEventListener('change', this.handleSystemThemeChange);
+    const listener = (event: MediaQueryListEvent) => {
+      this.systemDark.set(event.matches);
+    };
+
+    this.mediaQuery?.addEventListener('change', listener);
 
     this.destroyRef.onDestroy(() => {
-      this.mediaQuery.removeEventListener('change', this.handleSystemThemeChange);
+      this.mediaQuery?.removeEventListener('change', listener);
     });
 
     effect(() => {
       const preference = this.preference();
-      const resolvedTheme = this.resolvedTheme();
 
-      this.document.documentElement.classList.toggle('app-dark', resolvedTheme === 'dark');
+      const theme = this.resolvedTheme();
 
-      this.document.documentElement.dataset['theme'] = resolvedTheme;
+      const root = this.document.documentElement;
 
-      this.document.documentElement.style.colorScheme = resolvedTheme;
+      root.classList.toggle('app-dark', theme === 'dark');
 
-      localStorage.setItem(this.storageKey, preference);
+      root.dataset['theme'] = theme;
+      root.style.colorScheme = theme;
+
+      this.document.defaultView?.localStorage.setItem(this.storageKey, preference);
     });
   }
 
+  setTheme(preference: ThemePreference): void {
+    this.preference.set(preference);
+  }
+
   toggleTheme(): void {
-    this.preference.set(this.isDark() ? 'light' : 'dark');
+    this.preference.set(this.resolvedTheme() === 'dark' ? 'light' : 'dark');
   }
 
-  setTheme(theme: ThemePreference): void {
-    this.preference.set(theme);
-  }
+  private getInitialPreference(): ThemePreference {
+    const stored = this.document.defaultView?.localStorage.getItem(this.storageKey);
 
-  private readonly handleSystemThemeChange = (event: MediaQueryListEvent): void => {
-    this.systemPrefersDark.set(event.matches);
-  };
-
-  private getInitialTheme(): ThemePreference {
-    const savedTheme = localStorage.getItem(this.storageKey);
-
-    if (savedTheme === 'light' || savedTheme === 'dark' || savedTheme === 'system') {
-      return savedTheme;
+    if (stored === 'light' || stored === 'dark' || stored === 'system') {
+      return stored;
     }
 
     return 'system';

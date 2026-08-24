@@ -1,1 +1,287 @@
-<p>settings works!</p>
+<section class="settings-page">
+  <header class="settings-header">
+    <div>
+      <span class="settings-header__eyebrow">
+        {{ 'SETTINGS.PREFERENCES' | translate }}
+      </span>
+
+      <h1>
+        {{ 'SETTINGS.TITLE' | translate }}
+      </h1>
+
+      <p>
+        {{ 'SETTINGS.SUBTITLE' | translate }}
+      </p>
+    </div>
+  </header>
+
+  <div class="settings-layout">
+    <div class="settings-main">
+      <article class="settings-card">
+        <div class="settings-card__header">
+          <span class="settings-card__icon">
+            <i class="pi pi-palette"></i>
+          </span>
+
+          <div>
+            <h2>
+              {{ 'SETTINGS.APPEARANCE.TITLE' | translate }}
+            </h2>
+
+            <p>
+              {{ 'SETTINGS.APPEARANCE.SUBTITLE' | translate }}
+            </p>
+          </div>
+        </div>
+
+        <div class="theme-options">
+          <button
+            type="button"
+            class="theme-option"
+            [class.theme-option--active]="themeService.preference() === 'light'"
+            (click)="setTheme('light')"
+          >
+            <span class="theme-preview theme-preview--light">
+              <span class="theme-preview__sidebar"></span>
+
+              <span class="theme-preview__content">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            </span>
+
+            <span class="theme-option__footer">
+              <span>
+                <i class="pi pi-sun"></i>
+
+                {{ 'SETTINGS.APPEARANCE.LIGHT' | translate }}
+              </span>
+
+              @if (themeService.preference() === 'light') {
+                <i class="pi pi-check-circle"></i>
+              }
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="theme-option"
+            [class.theme-option--active]="themeService.preference() === 'dark'"
+            (click)="setTheme('dark')"
+          >
+            <span class="theme-preview theme-preview--dark">
+              <span class="theme-preview__sidebar"></span>
+
+              <span class="theme-preview__content">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            </span>
+
+            <span class="theme-option__footer">
+              <span>
+                <i class="pi pi-moon"></i>
+
+                {{ 'SETTINGS.APPEARANCE.DARK' | translate }}
+              </span>
+
+              @if (themeService.preference() === 'dark') {
+                <i class="pi pi-check-circle"></i>
+              }
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="theme-option"
+            [class.theme-option--active]="themeService.preference() === 'system'"
+            (click)="setTheme('system')"
+          >
+            <span class="theme-preview theme-preview--system">
+              <span class="theme-preview__sidebar"></span>
+
+              <span class="theme-preview__content">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            </span>
+
+            <span class="theme-option__footer">
+              <span>
+                <i class="pi pi-desktop"></i>
+
+                {{ 'SETTINGS.APPEARANCE.SYSTEM' | translate }}
+              </span>
+
+              @if (themeService.preference() === 'system') {
+                <i class="pi pi-check-circle"></i>
+              }
+            </span>
+          </button>
+        </div>
+      </article>
+
+      <article class="settings-card">
+        <div class="settings-card__header">
+          <span class="settings-card__icon">
+            <i class="pi pi-language"></i>
+          </span>
+
+          <div>
+            <h2>
+              {{ 'SETTINGS.LANGUAGE.TITLE' | translate }}
+            </h2>
+
+            <p>
+              {{ 'SETTINGS.LANGUAGE.SUBTITLE' | translate }}
+            </p>
+          </div>
+        </div>
+
+        <div class="language-options">
+          <button
+            type="button"
+            class="language-option"
+            [class.language-option--active]="languageService.currentLanguage() === 'en'"
+            (click)="setLanguage('en')"
+          >
+            <span class="language-option__symbol"> EN </span>
+
+            <span class="language-option__content">
+              <strong> English </strong>
+
+              <small>
+                {{ 'SETTINGS.LANGUAGE.ENGLISH_HINT' | translate }}
+              </small>
+            </span>
+
+            @if (languageService.currentLanguage() === 'en') {
+              <i class="pi pi-check-circle"></i>
+            }
+          </button>
+
+          <button
+            type="button"
+            class="language-option"
+            [class.language-option--active]="languageService.currentLanguage() === 'ar'"
+            (click)="setLanguage('ar')"
+          >
+            <span class="language-option__symbol"> ع </span>
+
+            <span class="language-option__content">
+              <strong> العربية </strong>
+
+              <small>
+                {{ 'SETTINGS.LANGUAGE.ARABIC_HINT' | translate }}
+              </small>
+            </span>
+
+            @if (languageService.currentLanguage() === 'ar') {
+              <i class="pi pi-check-circle"></i>
+            }
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <aside class="settings-sidebar">
+      <article class="settings-card account-card">
+        <div class="settings-card__header">
+          <span class="settings-card__icon">
+            <i class="pi pi-user"></i>
+          </span>
+
+          <div>
+            <h2>
+              {{ 'SETTINGS.ACCOUNT.TITLE' | translate }}
+            </h2>
+
+            <p>
+              {{ 'SETTINGS.ACCOUNT.SUBTITLE' | translate }}
+            </p>
+          </div>
+        </div>
+
+        @if (currentUser(); as user) {
+          <div class="account-profile">
+            <div class="account-profile__avatar">
+              @if (user.image) {
+                <img [src]="user.image" [alt]="user.firstName + ' ' + user.lastName" />
+              } @else {
+                <i class="pi pi-user"></i>
+              }
+            </div>
+
+            <div>
+              <strong>
+                {{ user.firstName }}
+                {{ user.lastName }}
+              </strong>
+
+              <span>
+                {{ getRoleKey(user.role) | translate }}
+              </span>
+            </div>
+          </div>
+
+          <div class="account-details">
+            <div>
+              <span>
+                {{ 'SETTINGS.ACCOUNT.EMAIL' | translate }}
+              </span>
+
+              <strong>
+                {{ user.email }}
+              </strong>
+            </div>
+
+            <div>
+              <span>
+                {{ 'SETTINGS.ACCOUNT.USERNAME' | translate }}
+              </span>
+
+              <strong> @{{ user.username }} </strong>
+            </div>
+
+            <div>
+              <span>
+                {{ 'SETTINGS.ACCOUNT.ROLE' | translate }}
+              </span>
+
+              <strong>
+                {{ getRoleKey(user.role) | translate }}
+              </strong>
+            </div>
+          </div>
+
+          <button type="button" class="sign-out-button" (click)="logout()">
+            <i class="pi pi-sign-out"></i>
+
+            <span>
+              {{ 'AUTH.LOGOUT' | translate }}
+            </span>
+          </button>
+        }
+      </article>
+
+      <article class="settings-card preference-info">
+        <span>
+          <i class="pi pi-info-circle"></i>
+        </span>
+
+        <div>
+          <strong>
+            {{ 'SETTINGS.AUTO_SAVE.TITLE' | translate }}
+          </strong>
+
+          <p>
+            {{ 'SETTINGS.AUTO_SAVE.MESSAGE' | translate }}
+          </p>
+        </div>
+      </article>
+    </aside>
+  </div>
+</section>
