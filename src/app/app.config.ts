@@ -5,7 +5,7 @@ import {
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { authInterceptor } from './core/interceptors/auth-interceptor';
 
 import Aura from '@primeuix/themes/aura';
@@ -15,9 +15,9 @@ import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { firstValueFrom } from 'rxjs';
+import { primeUiLicense } from '../environments/primeui-license.generated';
 import { routes } from './app.routes';
 import { AuthService } from './core/services/auth';
-import { primeUiLicense } from '../environments/primeui-license.generated';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -28,7 +28,13 @@ export const appConfig: ApplicationConfig = {
       return firstValueFrom(authService.restoreSession());
     }),
 
-    provideRouter(routes),
+    provideRouter(
+      routes,
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'top',
+        anchorScrolling: 'enabled',
+      }),
+    ),
 
     provideHttpClient(withInterceptors([authInterceptor])),
 
