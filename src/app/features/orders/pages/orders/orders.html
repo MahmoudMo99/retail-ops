@@ -1,1 +1,370 @@
-<p>orders works!</p>
+<section class="orders-page">
+  <header class="orders-header">
+    <div class="orders-header__content">
+      <span class="orders-header__eyebrow">
+        {{ 'ORDERS.MANAGEMENT' | translate }}
+      </span>
+
+      <h1>
+        {{ 'ORDERS.TITLE' | translate }}
+      </h1>
+
+      <p>
+        {{ 'ORDERS.SUBTITLE' | translate }}
+      </p>
+    </div>
+  </header>
+
+  <div class="orders-card">
+    <div class="orders-toolbar">
+      <div class="orders-search">
+        <i class="pi pi-search"></i>
+
+        <input
+          type="search"
+          [value]="searchTerm()"
+          [placeholder]="'ORDERS.SEARCH' | translate"
+          (input)="onSearch($event)"
+        />
+      </div>
+
+      <div class="orders-toolbar__end">
+        <span class="orders-count">
+          {{ filteredOrders().length }}
+          {{ 'ORDERS.ORDERS_COUNT' | translate }}
+        </span>
+
+        <div class="status-filter">
+          <select [value]="selectedStatus()" (change)="onStatusChange($event)">
+            <option value="all">
+              {{ 'ORDERS.ALL_STATUSES' | translate }}
+            </option>
+
+            <option value="paid">
+              {{ 'ORDERS.STATUS.PAID' | translate }}
+            </option>
+
+            <option value="processing">
+              {{ 'ORDERS.STATUS.PROCESSING' | translate }}
+            </option>
+
+            <option value="pending">
+              {{ 'ORDERS.STATUS.PENDING' | translate }}
+            </option>
+
+            <option value="cancelled">
+              {{ 'ORDERS.STATUS.CANCELLED' | translate }}
+            </option>
+          </select>
+
+          <i class="pi pi-angle-down"></i>
+        </div>
+
+        @if (searchTerm() || selectedStatus() !== 'all') {
+          <button type="button" class="clear-filters-btn" (click)="clearFilters()">
+            <i class="pi pi-times"></i>
+
+            <span>
+              {{ 'ORDERS.CLEAR_FILTERS' | translate }}
+            </span>
+          </button>
+        }
+      </div>
+    </div>
+
+    @if (error()) {
+      <div class="orders-error">
+        <i class="pi pi-exclamation-triangle"></i>
+
+        <div>
+          <strong>
+            {{ 'ORDERS.ERROR_TITLE' | translate }}
+          </strong>
+
+          <p>
+            {{ 'ORDERS.ERROR_MESSAGE' | translate }}
+          </p>
+        </div>
+      </div>
+    } @else {
+      <div class="orders-table-wrapper">
+        <p-table
+          [value]="filteredOrders()"
+          [loading]="loading()"
+          [paginator]="true"
+          [rows]="10"
+          [rowsPerPageOptions]="[10, 20, 30]"
+          [showCurrentPageReport]="true"
+          [currentPageReportTemplate]="'ORDERS.PAGE_REPORT' | translate"
+          [tableStyle]="{
+            'min-width': '920px',
+          }"
+        >
+          <ng-template #header>
+            <tr>
+              <th>
+                {{ 'ORDERS.ORDER' | translate }}
+              </th>
+
+              <th>
+                {{ 'ORDERS.CUSTOMER' | translate }}
+              </th>
+
+              <th>
+                {{ 'ORDERS.ITEMS' | translate }}
+              </th>
+
+              <th>
+                {{ 'ORDERS.QUANTITY' | translate }}
+              </th>
+
+              <th>
+                {{ 'ORDERS.TOTAL' | translate }}
+              </th>
+
+              <th>
+                {{ 'ORDERS.STATUS_LABEL' | translate }}
+              </th>
+
+              <th class="actions-column">
+                {{ 'ORDERS.ACTIONS' | translate }}
+              </th>
+            </tr>
+          </ng-template>
+
+          <ng-template #body let-order>
+            <tr>
+              <td>
+                <strong class="order-number">
+                  {{ order.orderNumber }}
+                </strong>
+              </td>
+
+              <td>
+                @if (order.customer) {
+                  <div class="customer-cell">
+                    <img
+                      [src]="order.customer.image"
+                      [alt]="order.customer.firstName + ' ' + order.customer.lastName"
+                    />
+
+                    <div>
+                      <strong>
+                        {{ order.customer.firstName }}
+                        {{ order.customer.lastName }}
+                      </strong>
+
+                      <span>
+                        {{ order.customer.email }}
+                      </span>
+                    </div>
+                  </div>
+                } @else {
+                  <span class="unknown-customer">
+                    {{ 'ORDERS.UNKNOWN_CUSTOMER' | translate }}
+                  </span>
+                }
+              </td>
+
+              <td>
+                {{ order.totalProducts }}
+              </td>
+
+              <td>
+                {{ order.totalQuantity }}
+              </td>
+
+              <td>
+                <strong class="order-total">
+                  {{ formatCurrency(order.discountedTotal) }}
+                </strong>
+              </td>
+
+              <td>
+                <span class="order-status" [class]="'order-status order-status--' + order.status">
+                  <span class="order-status__dot"></span>
+
+                  {{ getStatusKey(order.status) | translate }}
+                </span>
+              </td>
+
+              <td>
+                <button
+                  type="button"
+                  class="row-action"
+                  [attr.aria-label]="'ORDERS.VIEW_ORDER' | translate"
+                  (click)="viewOrder(order)"
+                >
+                  <i class="pi pi-eye"></i>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+
+          <ng-template #emptymessage>
+            <tr>
+              <td colspan="7">
+                <div class="orders-empty">
+                  <span>
+                    <i class="pi pi-shopping-cart"></i>
+                  </span>
+
+                  <strong>
+                    {{ 'ORDERS.EMPTY_TITLE' | translate }}
+                  </strong>
+
+                  <p>
+                    {{ 'ORDERS.EMPTY_MESSAGE' | translate }}
+                  </p>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    }
+  </div>
+</section>
+
+<p-dialog
+  [header]="'ORDERS.DETAILS.TITLE' | translate"
+  [visible]="detailsVisible()"
+  (visibleChange)="detailsVisible.set($event)"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [dismissableMask]="true"
+  [style]="{ width: '760px' }"
+  [breakpoints]="{
+    '767px': '94vw',
+    '575px': '96vw',
+  }"
+>
+  @if (selectedOrder(); as order) {
+    <div class="order-details">
+      <div class="order-details__summary">
+        <div>
+          <span>
+            {{ 'ORDERS.DETAILS.ORDER_NUMBER' | translate }}
+          </span>
+
+          <strong>
+            {{ order.orderNumber }}
+          </strong>
+        </div>
+
+        <div>
+          <span>
+            {{ 'ORDERS.DETAILS.STATUS' | translate }}
+          </span>
+
+          <strong
+            class="order-details__status"
+            [class]="'order-details__status order-details__status--' + order.status"
+          >
+            {{ getStatusKey(order.status) | translate }}
+          </strong>
+        </div>
+
+        <div>
+          <span>
+            {{ 'ORDERS.DETAILS.TOTAL' | translate }}
+          </span>
+
+          <strong>
+            {{ formatCurrency(order.discountedTotal) }}
+          </strong>
+        </div>
+      </div>
+
+      <div class="order-status-management">
+        <div>
+          <strong>
+            {{ 'ORDERS.DETAILS.UPDATE_STATUS' | translate }}
+          </strong>
+
+          <span>
+            {{ 'ORDERS.DETAILS.UPDATE_STATUS_HINT' | translate }}
+          </span>
+        </div>
+
+        <div class="order-status-management__actions">
+          <div class="order-status-select">
+            <select [value]="orderStatusDraft()" (change)="onOrderStatusChange($event)">
+              <option value="paid">
+                {{ 'ORDERS.STATUS.PAID' | translate }}
+              </option>
+
+              <option value="processing">
+                {{ 'ORDERS.STATUS.PROCESSING' | translate }}
+              </option>
+
+              <option value="pending">
+                {{ 'ORDERS.STATUS.PENDING' | translate }}
+              </option>
+
+              <option value="cancelled">
+                {{ 'ORDERS.STATUS.CANCELLED' | translate }}
+              </option>
+            </select>
+
+            <i class="pi pi-angle-down"></i>
+          </div>
+
+          <button
+            type="button"
+            class="save-status-btn"
+            [disabled]="orderStatusDraft() === order.status"
+            (click)="saveOrderStatus()"
+          >
+            {{ 'ORDERS.DETAILS.SAVE_STATUS' | translate }}
+          </button>
+        </div>
+      </div>
+
+      @if (order.customer) {
+        <div class="order-customer">
+          <img
+            [src]="order.customer.image"
+            [alt]="order.customer.firstName + ' ' + order.customer.lastName"
+          />
+
+          <div>
+            <strong>
+              {{ order.customer.firstName }}
+              {{ order.customer.lastName }}
+            </strong>
+
+            <span>
+              {{ order.customer.email }}
+            </span>
+          </div>
+        </div>
+      }
+
+      <div class="order-products">
+        @for (product of order.products; track product.id) {
+          <div class="order-product">
+            <img [src]="product.thumbnail" [alt]="product.title" />
+
+            <div class="order-product__info">
+              <strong>
+                {{ product.title }}
+              </strong>
+
+              <span>
+                {{ product.quantity }}
+                ×
+                {{ formatCurrency(product.price) }}
+              </span>
+            </div>
+
+            <strong class="order-product__total">
+              {{ formatCurrency(product.discountedTotal ?? product.total) }}
+            </strong>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</p-dialog>

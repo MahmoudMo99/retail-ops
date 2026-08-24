@@ -1,1 +1,410 @@
-<p>customers works!</p>
+<section class="customers-page">
+  <header class="customers-header">
+    <div class="customers-header__content">
+      <span class="customers-header__eyebrow">
+        {{ 'CUSTOMERS.MANAGEMENT' | translate }}
+      </span>
+
+      <h1>
+        {{ 'CUSTOMERS.TITLE' | translate }}
+      </h1>
+
+      <p>
+        {{ 'CUSTOMERS.SUBTITLE' | translate }}
+      </p>
+    </div>
+  </header>
+
+  <div class="customers-card">
+    <div class="customers-toolbar">
+      <div class="customers-search">
+        <i class="pi pi-search"></i>
+
+        <input
+          type="search"
+          [value]="searchTerm()"
+          [placeholder]="'CUSTOMERS.SEARCH' | translate"
+          [attr.aria-label]="'CUSTOMERS.SEARCH' | translate"
+          (input)="onSearch($event)"
+        />
+      </div>
+
+      <span class="customers-count">
+        {{ total() }}
+        {{ 'CUSTOMERS.CUSTOMERS_COUNT' | translate }}
+      </span>
+    </div>
+
+    @if (error()) {
+      <div class="customers-error">
+        <span class="customers-error__icon">
+          <i class="pi pi-exclamation-triangle"></i>
+        </span>
+
+        <div>
+          <strong>
+            {{ 'CUSTOMERS.ERROR_TITLE' | translate }}
+          </strong>
+
+          <p>
+            {{ 'CUSTOMERS.ERROR_MESSAGE' | translate }}
+          </p>
+        </div>
+      </div>
+    } @else {
+      <div class="customers-table-wrapper">
+        <p-table
+          [value]="customers()"
+          [lazy]="true"
+          [paginator]="true"
+          [rows]="rows()"
+          [first]="first()"
+          [totalRecords]="total()"
+          [loading]="loading()"
+          [rowsPerPageOptions]="[10, 20, 30]"
+          [showCurrentPageReport]="true"
+          [currentPageReportTemplate]="'CUSTOMERS.PAGE_REPORT' | translate"
+          [tableStyle]="{
+            'min-width': '980px',
+          }"
+          (onLazyLoad)="onLazyLoad($event)"
+        >
+          <ng-template #header>
+            <tr>
+              <th pSortableColumn="firstName">
+                <span class="sortable-header">
+                  {{ 'CUSTOMERS.CUSTOMER' | translate }}
+
+                  <p-sort-icon field="firstName" />
+                </span>
+              </th>
+
+              <th>
+                {{ 'CUSTOMERS.CONTACT' | translate }}
+              </th>
+
+              <th pSortableColumn="age">
+                <span class="sortable-header">
+                  {{ 'CUSTOMERS.AGE' | translate }}
+
+                  <p-sort-icon field="age" />
+                </span>
+              </th>
+
+              <th pSortableColumn="gender">
+                <span class="sortable-header">
+                  {{ 'CUSTOMERS.GENDER' | translate }}
+
+                  <p-sort-icon field="gender" />
+                </span>
+              </th>
+
+              <th>
+                {{ 'CUSTOMERS.COMPANY' | translate }}
+              </th>
+
+              <th pSortableColumn="role">
+                <span class="sortable-header">
+                  {{ 'CUSTOMERS.ROLE' | translate }}
+
+                  <p-sort-icon field="role" />
+                </span>
+              </th>
+
+              <th class="actions-column">
+                {{ 'CUSTOMERS.ACTIONS' | translate }}
+              </th>
+            </tr>
+          </ng-template>
+
+          <ng-template #body let-customer>
+            <tr>
+              <td>
+                <div class="customer-cell">
+                  <img
+                    [src]="customer.image"
+                    [alt]="customer.firstName + ' ' + customer.lastName"
+                  />
+
+                  <div class="customer-cell__info">
+                    <strong>
+                      {{ customer.firstName }}
+                      {{ customer.lastName }}
+                    </strong>
+
+                    <span> @{{ customer.username }} </span>
+                  </div>
+                </div>
+              </td>
+
+              <td>
+                <div class="contact-cell">
+                  <span>
+                    <i class="pi pi-envelope"></i>
+
+                    {{ customer.email }}
+                  </span>
+
+                  <span>
+                    <i class="pi pi-phone"></i>
+
+                    {{ customer.phone }}
+                  </span>
+                </div>
+              </td>
+
+              <td>
+                <span class="customer-value">
+                  {{ customer.age }}
+                </span>
+              </td>
+
+              <td>
+                <span class="gender-badge">
+                  {{ customer.gender }}
+                </span>
+              </td>
+
+              <td>
+                @if (customer.company) {
+                  <div class="company-cell">
+                    <strong>
+                      {{ customer.company.name }}
+                    </strong>
+
+                    <span>
+                      {{ customer.company.department }}
+                    </span>
+                  </div>
+                } @else {
+                  <span class="empty-value"> — </span>
+                }
+              </td>
+
+              <td>
+                <span
+                  class="role-badge"
+                  [class]="'role-badge role-badge--' + getRoleClass(customer.role)"
+                >
+                  {{ customer.role }}
+                </span>
+              </td>
+
+              <td>
+                <button
+                  type="button"
+                  class="row-action"
+                  [attr.aria-label]="'CUSTOMERS.VIEW_CUSTOMER' | translate"
+                  (click)="viewCustomer(customer.id)"
+                >
+                  <i class="pi pi-eye"></i>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+
+          <ng-template #emptymessage>
+            <tr>
+              <td colspan="7">
+                <div class="customers-empty">
+                  <span>
+                    <i class="pi pi-users"></i>
+                  </span>
+
+                  <strong>
+                    {{ 'CUSTOMERS.EMPTY_TITLE' | translate }}
+                  </strong>
+
+                  <p>
+                    {{ 'CUSTOMERS.EMPTY_MESSAGE' | translate }}
+                  </p>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    }
+  </div>
+</section>
+
+<p-dialog
+  [header]="'CUSTOMERS.DETAILS.TITLE' | translate"
+  [visible]="detailsVisible()"
+  (visibleChange)="detailsVisible.set($event)"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [dismissableMask]="true"
+  [style]="{
+    width: '760px',
+  }"
+  [breakpoints]="{
+    '767px': '94vw',
+    '575px': '96vw',
+  }"
+>
+  @if (detailsLoading()) {
+    <div class="customer-details-loading">
+      <i class="pi pi-spin pi-spinner"></i>
+
+      <span>
+        {{ 'CUSTOMERS.DETAILS.LOADING' | translate }}
+      </span>
+    </div>
+  } @else if (selectedCustomer(); as customer) {
+    <div class="customer-details">
+      <div class="customer-profile">
+        <img [src]="customer.image" [alt]="customer.firstName + ' ' + customer.lastName" />
+
+        <div class="customer-profile__content">
+          <div>
+            <h2>
+              {{ customer.firstName }}
+              {{ customer.lastName }}
+            </h2>
+
+            <span> @{{ customer.username }} </span>
+          </div>
+
+          <span
+            class="role-badge"
+            [class]="'role-badge role-badge--' + getRoleClass(customer.role)"
+          >
+            {{ customer.role }}
+          </span>
+        </div>
+      </div>
+
+      <div class="customer-details-grid">
+        <div class="customer-detail">
+          <span>
+            {{ 'CUSTOMERS.DETAILS.EMAIL' | translate }}
+          </span>
+
+          <strong>
+            {{ customer.email }}
+          </strong>
+        </div>
+
+        <div class="customer-detail">
+          <span>
+            {{ 'CUSTOMERS.DETAILS.PHONE' | translate }}
+          </span>
+
+          <strong>
+            {{ customer.phone }}
+          </strong>
+        </div>
+
+        <div class="customer-detail">
+          <span>
+            {{ 'CUSTOMERS.DETAILS.AGE' | translate }}
+          </span>
+
+          <strong>
+            {{ customer.age }}
+          </strong>
+        </div>
+
+        <div class="customer-detail">
+          <span>
+            {{ 'CUSTOMERS.DETAILS.GENDER' | translate }}
+          </span>
+
+          <strong>
+            {{ customer.gender }}
+          </strong>
+        </div>
+      </div>
+
+      @if (customer.company) {
+        <section class="details-section">
+          <div class="details-section__heading">
+            <span class="details-section__icon">
+              <i class="pi pi-building"></i>
+            </span>
+
+            <div>
+              <strong>
+                {{ 'CUSTOMERS.DETAILS.COMPANY' | translate }}
+              </strong>
+
+              <span>
+                {{ 'CUSTOMERS.DETAILS.COMPANY_HINT' | translate }}
+              </span>
+            </div>
+          </div>
+
+          <div class="customer-details-grid">
+            <div class="customer-detail">
+              <span>
+                {{ 'CUSTOMERS.DETAILS.COMPANY_NAME' | translate }}
+              </span>
+
+              <strong>
+                {{ customer.company.name }}
+              </strong>
+            </div>
+
+            <div class="customer-detail">
+              <span>
+                {{ 'CUSTOMERS.DETAILS.DEPARTMENT' | translate }}
+              </span>
+
+              <strong>
+                {{ customer.company.department }}
+              </strong>
+            </div>
+
+            <div class="customer-detail customer-detail--full">
+              <span>
+                {{ 'CUSTOMERS.DETAILS.JOB_TITLE' | translate }}
+              </span>
+
+              <strong>
+                {{ customer.company.title }}
+              </strong>
+            </div>
+          </div>
+        </section>
+      }
+
+      @if (customer.address) {
+        <section class="details-section">
+          <div class="details-section__heading">
+            <span class="details-section__icon">
+              <i class="pi pi-map-marker"></i>
+            </span>
+
+            <div>
+              <strong>
+                {{ 'CUSTOMERS.DETAILS.ADDRESS' | translate }}
+              </strong>
+
+              <span>
+                {{ 'CUSTOMERS.DETAILS.ADDRESS_HINT' | translate }}
+              </span>
+            </div>
+          </div>
+
+          <div class="address-card">
+            <strong>
+              {{ customer.address.address }}
+            </strong>
+
+            <span>
+              {{ customer.address.city }},
+              {{ customer.address.state }}
+              {{ customer.address.postalCode }}
+            </span>
+
+            <span>
+              {{ customer.address.country }}
+            </span>
+          </div>
+        </section>
+      }
+    </div>
+  }
+</p-dialog>

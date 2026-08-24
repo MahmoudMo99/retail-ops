@@ -1,1 +1,530 @@
-<p>inventory works!</p>
+<section class="inventory-page">
+  <header class="inventory-header">
+    <div class="inventory-header__content">
+      <span class="inventory-header__eyebrow">
+        {{ 'INVENTORY.MANAGEMENT' | translate }}
+      </span>
+
+      <h1>
+        {{ 'INVENTORY.TITLE' | translate }}
+      </h1>
+
+      <p>
+        {{ 'INVENTORY.SUBTITLE' | translate }}
+      </p>
+    </div>
+  </header>
+
+  @if (summary(); as data) {
+    <div class="inventory-kpis">
+      <article class="inventory-kpi">
+        <div class="inventory-kpi__icon">
+          <i class="pi pi-box"></i>
+        </div>
+
+        <div class="inventory-kpi__content">
+          <span>
+            {{ 'INVENTORY.KPI.TOTAL_PRODUCTS' | translate }}
+          </span>
+
+          <strong>
+            {{ data.totalProducts }}
+          </strong>
+
+          <small>
+            {{ 'INVENTORY.KPI.TOTAL_PRODUCTS_HINT' | translate }}
+          </small>
+        </div>
+      </article>
+
+      <article class="inventory-kpi">
+        <div class="inventory-kpi__icon">
+          <i class="pi pi-database"></i>
+        </div>
+
+        <div class="inventory-kpi__content">
+          <span>
+            {{ 'INVENTORY.KPI.TOTAL_UNITS' | translate }}
+          </span>
+
+          <strong>
+            {{ data.totalUnits }}
+          </strong>
+
+          <small>
+            {{ 'INVENTORY.KPI.TOTAL_UNITS_HINT' | translate }}
+          </small>
+        </div>
+      </article>
+
+      <article class="inventory-kpi inventory-kpi--warning">
+        <div class="inventory-kpi__icon">
+          <i class="pi pi-exclamation-triangle"></i>
+        </div>
+
+        <div class="inventory-kpi__content">
+          <span>
+            {{ 'INVENTORY.KPI.LOW_STOCK' | translate }}
+          </span>
+
+          <strong>
+            {{ data.lowStock }}
+          </strong>
+
+          <small>
+            {{ data.outOfStock }}
+            {{ 'INVENTORY.KPI.OUT_OF_STOCK_HINT' | translate }}
+          </small>
+        </div>
+      </article>
+
+      <article class="inventory-kpi">
+        <div class="inventory-kpi__icon">
+          <i class="pi pi-dollar"></i>
+        </div>
+
+        <div class="inventory-kpi__content">
+          <span>
+            {{ 'INVENTORY.KPI.INVENTORY_VALUE' | translate }}
+          </span>
+
+          <strong>
+            {{ formatCurrency(data.inventoryValue) }}
+          </strong>
+
+          <small>
+            {{ 'INVENTORY.KPI.INVENTORY_VALUE_HINT' | translate }}
+          </small>
+        </div>
+      </article>
+    </div>
+  }
+
+  <div class="inventory-card">
+    <div class="inventory-toolbar">
+      <div class="inventory-search">
+        <i class="pi pi-search"></i>
+
+        <input
+          type="search"
+          [value]="searchTerm()"
+          [placeholder]="'INVENTORY.SEARCH' | translate"
+          [attr.aria-label]="'INVENTORY.SEARCH' | translate"
+          (input)="onSearch($event)"
+        />
+      </div>
+
+      <div class="inventory-toolbar__end">
+        <span class="inventory-count">
+          {{ filteredItems().length }}
+          {{ 'INVENTORY.PRODUCTS_COUNT' | translate }}
+        </span>
+
+        <div class="inventory-select">
+          <select [value]="selectedCategory()" (change)="onCategoryChange($event)">
+            <option value="all">
+              {{ 'INVENTORY.ALL_CATEGORIES' | translate }}
+            </option>
+
+            @for (category of categories(); track category) {
+              <option [value]="category">
+                {{ category }}
+              </option>
+            }
+          </select>
+
+          <i class="pi pi-angle-down"></i>
+        </div>
+
+        <div class="inventory-select">
+          <select [value]="selectedStatus()" (change)="onStatusChange($event)">
+            <option value="all">
+              {{ 'INVENTORY.ALL_STATUSES' | translate }}
+            </option>
+
+            <option value="in-stock">
+              {{ 'INVENTORY.STATUS.IN_STOCK' | translate }}
+            </option>
+
+            <option value="low-stock">
+              {{ 'INVENTORY.STATUS.LOW_STOCK' | translate }}
+            </option>
+
+            <option value="out-of-stock">
+              {{ 'INVENTORY.STATUS.OUT_OF_STOCK' | translate }}
+            </option>
+          </select>
+
+          <i class="pi pi-angle-down"></i>
+        </div>
+
+        @if (hasActiveFilters()) {
+          <button type="button" class="clear-filters-btn" (click)="clearFilters()">
+            <i class="pi pi-times"></i>
+
+            <span>
+              {{ 'INVENTORY.CLEAR_FILTERS' | translate }}
+            </span>
+          </button>
+        }
+      </div>
+    </div>
+
+    @if (error()) {
+      <div class="inventory-error">
+        <span class="inventory-error__icon">
+          <i class="pi pi-exclamation-triangle"></i>
+        </span>
+
+        <div>
+          <strong>
+            {{ 'INVENTORY.ERROR_TITLE' | translate }}
+          </strong>
+
+          <p>
+            {{ 'INVENTORY.ERROR_MESSAGE' | translate }}
+          </p>
+        </div>
+      </div>
+    } @else {
+      <div class="inventory-table-wrapper">
+        <p-table
+          [value]="filteredItems()"
+          [loading]="loading()"
+          [paginator]="true"
+          [rows]="10"
+          [rowsPerPageOptions]="[10, 20, 30]"
+          [showCurrentPageReport]="true"
+          [currentPageReportTemplate]="'INVENTORY.PAGE_REPORT' | translate"
+          [tableStyle]="{
+            'min-width': '1050px',
+          }"
+        >
+          <ng-template #header>
+            <tr>
+              <th pSortableColumn="title">
+                <span class="sortable-header">
+                  {{ 'INVENTORY.PRODUCT' | translate }}
+
+                  <p-sort-icon field="title" />
+                </span>
+              </th>
+
+              <th>
+                {{ 'INVENTORY.SKU' | translate }}
+              </th>
+
+              <th pSortableColumn="category">
+                <span class="sortable-header">
+                  {{ 'INVENTORY.CATEGORY' | translate }}
+
+                  <p-sort-icon field="category" />
+                </span>
+              </th>
+
+              <th pSortableColumn="price">
+                <span class="sortable-header">
+                  {{ 'INVENTORY.PRICE' | translate }}
+
+                  <p-sort-icon field="price" />
+                </span>
+              </th>
+
+              <th pSortableColumn="stock">
+                <span class="sortable-header">
+                  {{ 'INVENTORY.STOCK' | translate }}
+
+                  <p-sort-icon field="stock" />
+                </span>
+              </th>
+
+              <th>
+                {{ 'INVENTORY.STOCK_LEVEL' | translate }}
+              </th>
+
+              <th>
+                {{ 'INVENTORY.STATUS_LABEL' | translate }}
+              </th>
+
+              <th class="actions-column">
+                {{ 'INVENTORY.ACTIONS' | translate }}
+              </th>
+            </tr>
+          </ng-template>
+
+          <ng-template #body let-item>
+            <tr
+              [class.inventory-row--low]="item.status === 'low-stock'"
+              [class.inventory-row--empty]="item.status === 'out-of-stock'"
+            >
+              <td>
+                <div class="inventory-product">
+                  <div class="inventory-product__image">
+                    <img [src]="item.thumbnail" [alt]="item.title" />
+                  </div>
+
+                  <div class="inventory-product__info">
+                    <strong>
+                      {{ item.title }}
+                    </strong>
+
+                    <span>
+                      {{ item.brand || '—' }}
+                    </span>
+                  </div>
+                </div>
+              </td>
+
+              <td>
+                <span class="sku-value">
+                  {{ item.sku }}
+                </span>
+              </td>
+
+              <td>
+                <span class="category-badge">
+                  {{ item.category }}
+                </span>
+              </td>
+
+              <td>
+                <strong class="price-value">
+                  {{ formatCurrency(item.price) }}
+                </strong>
+              </td>
+
+              <td>
+                <strong
+                  class="stock-value"
+                  [class.stock-value--warning]="item.status === 'low-stock'"
+                  [class.stock-value--danger]="item.status === 'out-of-stock'"
+                >
+                  {{ item.stock }}
+                </strong>
+              </td>
+
+              <td>
+                <div class="stock-level">
+                  <div class="stock-level__track">
+                    <span
+                      class="stock-level__bar"
+                      [class.stock-level__bar--warning]="item.status === 'low-stock'"
+                      [class.stock-level__bar--danger]="item.status === 'out-of-stock'"
+                      [style.width.%]="getStockLevel(item.stock)"
+                    ></span>
+                  </div>
+
+                  <span>
+                    {{ item.stock }}
+                    {{ 'INVENTORY.UNITS' | translate }}
+                  </span>
+                </div>
+              </td>
+
+              <td>
+                <span
+                  class="inventory-status"
+                  [class]="'inventory-status inventory-status--' + item.status"
+                >
+                  <span class="inventory-status__dot"></span>
+
+                  {{ getStatusKey(item.status) | translate }}
+                </span>
+              </td>
+
+              <td>
+                <button
+                  type="button"
+                  class="row-action"
+                  [attr.aria-label]="'INVENTORY.ADJUST.ACTION' | translate"
+                  (click)="openAdjustStock(item)"
+                >
+                  <i class="pi pi-pencil"></i>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+
+          <ng-template #emptymessage>
+            <tr>
+              <td colspan="8">
+                <div class="inventory-empty">
+                  <span>
+                    <i class="pi pi-box"></i>
+                  </span>
+
+                  <strong>
+                    {{ 'INVENTORY.EMPTY_TITLE' | translate }}
+                  </strong>
+
+                  <p>
+                    {{ 'INVENTORY.EMPTY_MESSAGE' | translate }}
+                  </p>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    }
+  </div>
+</section>
+
+<p-dialog
+  [header]="'INVENTORY.ADJUST.TITLE' | translate"
+  [visible]="adjustVisible()"
+  (visibleChange)="adjustVisible.set($event)"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [closable]="!adjusting()"
+  [dismissableMask]="!adjusting()"
+  [style]="{
+    width: '520px',
+  }"
+  [breakpoints]="{
+    '575px': '96vw',
+  }"
+>
+  @if (selectedItem(); as item) {
+    <div class="stock-adjustment">
+      <div class="stock-adjustment__product">
+        <img [src]="item.thumbnail" [alt]="item.title" />
+
+        <div>
+          <strong>
+            {{ item.title }}
+          </strong>
+
+          <span>
+            {{ item.sku }}
+          </span>
+        </div>
+
+        <div class="current-stock">
+          <span>
+            {{ 'INVENTORY.ADJUST.CURRENT' | translate }}
+          </span>
+
+          <strong>
+            {{ item.stock }}
+          </strong>
+        </div>
+      </div>
+
+      <div class="adjustment-modes">
+        <button
+          type="button"
+          [class.adjustment-mode--active]="adjustmentMode() === 'add'"
+          (click)="setAdjustmentMode('add')"
+        >
+          <i class="pi pi-plus"></i>
+
+          {{ 'INVENTORY.ADJUST.ADD' | translate }}
+        </button>
+
+        <button
+          type="button"
+          [class.adjustment-mode--active]="adjustmentMode() === 'remove'"
+          (click)="setAdjustmentMode('remove')"
+        >
+          <i class="pi pi-minus"></i>
+
+          {{ 'INVENTORY.ADJUST.REMOVE' | translate }}
+        </button>
+
+        <button
+          type="button"
+          [class.adjustment-mode--active]="adjustmentMode() === 'set'"
+          (click)="setAdjustmentMode('set')"
+        >
+          <i class="pi pi-pencil"></i>
+
+          {{ 'INVENTORY.ADJUST.SET' | translate }}
+        </button>
+      </div>
+
+      <div class="adjustment-field">
+        <label for="stock-quantity">
+          {{
+            adjustmentMode() === 'set'
+              ? ('INVENTORY.ADJUST.NEW_QUANTITY' | translate)
+              : ('INVENTORY.ADJUST.QUANTITY' | translate)
+          }}
+        </label>
+
+        <input
+          id="stock-quantity"
+          type="number"
+          min="0"
+          step="1"
+          [value]="adjustmentQuantity()"
+          (input)="onAdjustmentQuantity($event)"
+        />
+
+        @if (adjustmentMode() === 'remove' && adjustedStock() < 0) {
+          <small class="adjustment-error">
+            {{ 'INVENTORY.ADJUST.ERROR_REMOVE' | translate }}
+          </small>
+        } @else if (adjustmentInvalid()) {
+          <small class="adjustment-error">
+            {{ 'INVENTORY.ADJUST.ERROR_QUANTITY' | translate }}
+          </small>
+        }
+      </div>
+
+      <div class="stock-preview">
+        <div>
+          <span>
+            {{ 'INVENTORY.ADJUST.BEFORE' | translate }}
+          </span>
+
+          <strong class="stock-preview__current">
+            {{ item.stock }}
+          </strong>
+        </div>
+
+        <i class="pi pi-arrow-right"></i>
+
+        <div>
+          <span>
+            {{ 'INVENTORY.ADJUST.AFTER' | translate }}
+          </span>
+
+          <strong
+            [class.stock-preview--warning]="adjustedStock() > 0 && adjustedStock() <= 10"
+            [class.stock-preview--danger]="adjustedStock() === 0"
+          >
+            {{ adjustedStock() < 0 ? 0 : adjustedStock() }}
+          </strong>
+        </div>
+      </div>
+
+      <div class="stock-adjustment__actions">
+        <button
+          type="button"
+          class="adjustment-btn adjustment-btn--secondary"
+          [disabled]="adjusting()"
+          (click)="closeAdjustStock()"
+        >
+          {{ 'COMMON.CANCEL' | translate }}
+        </button>
+
+        <button
+          type="button"
+          class="adjustment-btn adjustment-btn--primary"
+          [disabled]="adjustmentInvalid() || adjusting()"
+          (click)="saveStockAdjustment()"
+        >
+          @if (adjusting()) {
+            <i class="pi pi-spin pi-spinner"></i>
+          }
+
+          <span>
+            {{ 'INVENTORY.ADJUST.SAVE' | translate }}
+          </span>
+        </button>
+      </div>
+    </div>
+  }
+</p-dialog>
