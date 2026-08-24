@@ -24,7 +24,7 @@
       </div>
 
       <div class="product-price">
-        {{ formatCurrency(product().price) }}
+        {{ formatter.formatCurrency(product().price) }}
       </div>
     </div>
 
@@ -40,7 +40,8 @@
 
         <strong>
           <i class="pi pi-star-fill"></i>
-          {{ product().rating }}
+
+          {{ formatter.formatNumber(product().rating, 0, 1) }}
         </strong>
       </div>
 
@@ -50,7 +51,7 @@
         </span>
 
         <strong>
-          {{ product().stock }}
+          {{ formatter.formatNumber(product().stock) }}
         </strong>
       </div>
 
@@ -59,7 +60,9 @@
           {{ 'PRODUCTS.DETAILS.DISCOUNT' | translate }}
         </span>
 
-        <strong> {{ product().discountPercentage }}% </strong>
+        <strong>
+          {{ formatter.formatPercent(product().discountPercentage / 100, 1) }}
+        </strong>
       </div>
 
       @if (product().sku) {

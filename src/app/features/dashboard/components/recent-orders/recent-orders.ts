@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+
+import { FormatterService } from '../../../../core/services/formatter';
 
 type OrderStatus = 'paid' | 'pending' | 'processing' | 'refunded';
 
@@ -10,7 +12,7 @@ interface RecentOrder {
   initials: string;
   amount: number;
   status: OrderStatus;
-  date: string;
+  date: Date;
 }
 
 @Component({
@@ -20,6 +22,8 @@ interface RecentOrder {
   styleUrl: './recent-orders.scss',
 })
 export class RecentOrders {
+  readonly formatter = inject(FormatterService);
+
   readonly orders: RecentOrder[] = [
     {
       id: '#ORD-1048',
@@ -27,7 +31,7 @@ export class RecentOrders {
       initials: 'AH',
       amount: 320,
       status: 'paid',
-      date: 'Aug 22',
+      date: new Date(2026, 7, 22),
     },
     {
       id: '#ORD-1047',
@@ -35,7 +39,7 @@ export class RecentOrders {
       initials: 'SM',
       amount: 185,
       status: 'pending',
-      date: 'Aug 22',
+      date: new Date(2026, 7, 22),
     },
     {
       id: '#ORD-1046',
@@ -43,7 +47,7 @@ export class RecentOrders {
       initials: 'OA',
       amount: 540,
       status: 'processing',
-      date: 'Aug 21',
+      date: new Date(2026, 7, 21),
     },
     {
       id: '#ORD-1045',
@@ -51,7 +55,7 @@ export class RecentOrders {
       initials: 'NA',
       amount: 96,
       status: 'refunded',
-      date: 'Aug 21',
+      date: new Date(2026, 7, 21),
     },
     {
       id: '#ORD-1044',
@@ -59,19 +63,11 @@ export class RecentOrders {
       initials: 'YA',
       amount: 410,
       status: 'paid',
-      date: 'Aug 20',
+      date: new Date(2026, 7, 20),
     },
   ];
 
   getStatusKey(status: OrderStatus): string {
     return `DASHBOARD.ORDERS.STATUS.${status.toUpperCase()}`;
-  }
-
-  formatCurrency(value: number): string {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 0,
-    }).format(value);
   }
 }

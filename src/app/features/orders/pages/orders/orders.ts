@@ -4,6 +4,7 @@ import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { finalize } from 'rxjs';
 
+import { FormatterService } from '../../../../core/services/formatter';
 import { OrderStatus, OrderView } from '../../models/order-view.model';
 import { OrdersService } from '../../services/orders';
 
@@ -16,11 +17,16 @@ import { OrdersService } from '../../services/orders';
 export class Orders {
   private readonly ordersService = inject(OrdersService);
 
+  readonly formatter = inject(FormatterService);
+
   readonly orders = signal<OrderView[]>([]);
+
   readonly loading = signal(false);
+
   readonly error = signal(false);
 
   readonly searchTerm = signal('');
+
   readonly selectedStatus = signal<OrderStatus | 'all'>('all');
 
   readonly selectedOrder = signal<OrderView | null>(null);
@@ -76,7 +82,9 @@ export class Orders {
 
   viewOrder(order: OrderView): void {
     this.selectedOrder.set(order);
+
     this.orderStatusDraft.set(order.status);
+
     this.detailsVisible.set(true);
   }
 
@@ -114,13 +122,6 @@ export class Orders {
 
   getStatusKey(status: OrderStatus): string {
     return `ORDERS.STATUS.${status.toUpperCase()}`;
-  }
-
-  formatCurrency(value: number): string {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(value);
   }
 
   private loadOrders(): void {

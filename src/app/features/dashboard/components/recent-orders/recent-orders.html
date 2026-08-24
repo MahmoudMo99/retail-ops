@@ -65,7 +65,7 @@
             </td>
 
             <td class="order-date">
-              {{ order.date }}
+              {{ formatter.formatDate(order.date) }}
             </td>
 
             <td>
@@ -75,7 +75,7 @@
             </td>
 
             <td class="order-amount">
-              {{ formatCurrency(order.amount) }}
+              {{ formatter.formatCurrency(order.amount, 'USD', 0, 0) }}
             </td>
           </tr>
         }

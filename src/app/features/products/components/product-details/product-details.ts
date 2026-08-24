@@ -1,6 +1,7 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 
+import { FormatterService } from '../../../../core/services/formatter';
 import { Product } from '../../models/product.model';
 
 @Component({
@@ -10,12 +11,7 @@ import { Product } from '../../models/product.model';
   styleUrl: './product-details.scss',
 })
 export class ProductDetails {
-  readonly product = input.required<Product>();
+  readonly formatter = inject(FormatterService);
 
-  formatCurrency(value: number): string {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(value);
-  }
+  readonly product = input.required<Product>();
 }

@@ -58,7 +58,7 @@
           </span>
 
           <strong class="kpi-card__value">
-            {{ item.value }}
+            {{ formatKpiValue(item) }}
           </strong>
         </div>
 
@@ -74,7 +74,7 @@
               [class.pi-arrow-down-right]="item.trendType === 'negative'"
             ></i>
 
-            {{ item.trend }}%
+            {{ formatTrend(item.trend) }}
           </span>
 
           <span class="kpi-card__comparison">

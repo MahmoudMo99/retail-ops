@@ -24,7 +24,9 @@
       <canvas #chartCanvas></canvas>
 
       <div class="sales-chart__center">
-        <strong>$84.3K</strong>
+        <strong>
+          {{ formatter.formatCompactCurrency(totalSales, 'USD', 1) }}
+        </strong>
 
         <span>
           {{ 'DASHBOARD.SALES.TOTAL' | translate }}
@@ -44,7 +46,9 @@
           </span>
         </div>
 
-        <strong> {{ item.value }}% </strong>
+        <strong>
+          {{ formatter.formatPercent(item.value / 100, 0) }}
+        </strong>
       </div>
     }
   </div>

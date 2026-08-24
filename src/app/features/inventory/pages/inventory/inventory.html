@@ -89,7 +89,7 @@
           </span>
 
           <strong>
-            {{ formatCurrency(data.inventoryValue) }}
+            {{ formatter.formatCurrency(data.inventoryValue) }}
           </strong>
 
           <small>
@@ -289,7 +289,7 @@
 
               <td>
                 <strong class="price-value">
-                  {{ formatCurrency(item.price) }}
+                  {{ formatter.formatCurrency(item.price) }}
                 </strong>
               </td>
 

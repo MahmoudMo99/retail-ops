@@ -11,11 +11,14 @@
     </div>
 
     <div class="revenue-summary">
-      <strong>$124,560</strong>
+      <strong>
+        {{ formatter.formatCurrency(totalRevenue, 'USD', 0, 0) }}
+      </strong>
 
       <span>
         <i class="pi pi-arrow-up-right"></i>
-        12.5%
+
+        {{ formatter.formatPercent(revenueGrowth, 1) }}
       </span>
     </div>
   </header>

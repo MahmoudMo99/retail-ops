@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+
+import { FormatterService } from '../../../../core/services/formatter';
 
 interface TopProduct {
   id: number;
@@ -19,6 +21,8 @@ interface TopProduct {
   styleUrl: './top-products.scss',
 })
 export class TopProducts {
+  readonly formatter = inject(FormatterService);
+
   readonly products: TopProduct[] = [
     {
       id: 1,
@@ -57,12 +61,4 @@ export class TopProducts {
       accent: 'orange',
     },
   ];
-
-  formatCurrency(value: number): string {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 0,
-    }).format(value);
-  }
 }

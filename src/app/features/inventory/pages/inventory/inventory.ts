@@ -5,6 +5,7 @@ import { DialogModule } from 'primeng/dialog';
 import { SortIcon, TableModule } from 'primeng/table';
 import { finalize } from 'rxjs';
 
+import { FormatterService } from '../../../../core/services/formatter';
 import { InventoryItem, InventoryStatus } from '../../models/inventory-item.model';
 import { InventorySummary } from '../../models/inventory-summary.model';
 import { InventoryService } from '../../services/inventory';
@@ -21,6 +22,7 @@ export class Inventory {
   private readonly inventoryService = inject(InventoryService);
 
   private readonly destroyRef = inject(DestroyRef);
+  readonly formatter = inject(FormatterService);
 
   readonly items = signal<InventoryItem[]>([]);
 
@@ -233,13 +235,6 @@ export class Inventory {
 
   getStockLevel(stock: number): number {
     return Math.min(Math.max(stock, 0), 100);
-  }
-
-  formatCurrency(value: number): string {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(value);
   }
 
   private resolveStockStatus(stock: number): InventoryStatus {

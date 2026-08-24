@@ -1,8 +1,9 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, DestroyRef, effect, ElementRef, inject, viewChild } from '@angular/core';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ArcElement, Chart, DoughnutController, Tooltip } from 'chart.js';
 
+import { FormatterService } from '../../../../core/services/formatter';
 import { AppLanguage, LanguageService } from '../../../../core/services/language';
 import { ThemeService } from '../../../../core/services/theme';
 
@@ -24,11 +25,18 @@ export class SalesBreakdown {
   private readonly canvas = viewChild<ElementRef<HTMLCanvasElement>>('chartCanvas');
 
   private readonly themeService = inject(ThemeService);
+
   private readonly languageService = inject(LanguageService);
+
+  private readonly translate = inject(TranslateService);
+
   private readonly document = inject(DOCUMENT);
+
   private readonly destroyRef = inject(DestroyRef);
 
-  private chart?: Chart<'doughnut'>;
+  readonly formatter = inject(FormatterService);
+
+  readonly totalSales = 84300;
 
   readonly categories: SalesCategory[] = [
     {
@@ -53,10 +61,14 @@ export class SalesBreakdown {
     },
   ];
 
+  private chart?: Chart<'doughnut'>;
+
   constructor() {
     effect(() => {
       const canvas = this.canvas();
+
       this.themeService.resolvedTheme();
+
       const language = this.languageService.currentLanguage();
 
       if (!canvas) {
@@ -83,6 +95,7 @@ export class SalesBreakdown {
     const styles = this.document.defaultView!.getComputedStyle(this.document.documentElement);
 
     const surface = styles.getPropertyValue('--surface-primary').trim();
+
     const fontFamily = styles
       .getPropertyValue(language === 'ar' ? '--font-ar' : '--font-en')
       .trim();
@@ -91,43 +104,68 @@ export class SalesBreakdown {
       styles.getPropertyValue(category.token).trim(),
     );
 
+    const labels = this.categories.map((category) => this.translate.instant(category.label));
+
     return new Chart(canvas, {
       type: 'doughnut',
+
       data: {
-        labels: this.categories.map((category) => category.label),
+        labels,
+
         datasets: [
           {
             data: this.categories.map((category) => category.value),
+
             backgroundColor: colors,
+
             borderColor: surface,
+
             borderWidth: 4,
+
             hoverOffset: 4,
           },
         ],
       },
+
       options: {
         responsive: true,
+
         maintainAspectRatio: false,
+
         cutout: '72%',
+
         plugins: {
           legend: {
             display: false,
           },
+
           tooltip: {
             displayColors: false,
+
+            rtl: language === 'ar',
+
+            textDirection: language === 'ar' ? 'rtl' : 'ltr',
+
             padding: 11,
+
             cornerRadius: 8,
+
             titleFont: {
               family: fontFamily,
+
               size: 11,
             },
+
             bodyFont: {
               family: fontFamily,
+
               size: 12,
+
               weight: 600,
             },
+
             callbacks: {
-              label: (context) => `${context.formattedValue}%`,
+              label: (context) => this.formatter.formatPercent(Number(context.raw) / 100, 0),
             },
           },
         },

@@ -39,7 +39,7 @@
 
       <div class="products-toolbar__end">
         <span class="products-count">
-          {{ total() }}
+          {{ formatter.formatNumber(total()) }}
           {{ 'PRODUCTS.PRODUCTS_COUNT' | translate }}
         </span>
 
@@ -149,6 +149,7 @@
               <th pSortableColumn="category">
                 <div class="sortable-header">
                   {{ 'PRODUCTS.CATEGORY' | translate }}
+
                   <p-sort-icon field="category" />
                 </div>
               </th>
@@ -156,6 +157,7 @@
               <th pSortableColumn="price">
                 <div class="sortable-header">
                   {{ 'PRODUCTS.PRICE' | translate }}
+
                   <p-sort-icon field="price" />
                 </div>
               </th>
@@ -163,6 +165,7 @@
               <th pSortableColumn="rating">
                 <div class="sortable-header">
                   {{ 'PRODUCTS.RATING' | translate }}
+
                   <p-sort-icon field="rating" />
                 </div>
               </th>
@@ -170,6 +173,7 @@
               <th pSortableColumn="stock">
                 <div class="sortable-header">
                   {{ 'PRODUCTS.STOCK' | translate }}
+
                   <p-sort-icon field="stock" />
                 </div>
               </th>
@@ -199,6 +203,7 @@
 
                     <span>
                       #{{ product.id }}
+
                       @if (product.brand) {
                         · {{ product.brand }}
                       }
@@ -215,7 +220,7 @@
 
               <td>
                 <strong class="price">
-                  {{ formatCurrency(product.price) }}
+                  {{ formatter.formatCurrency(product.price) }}
                 </strong>
               </td>
 
@@ -224,14 +229,14 @@
                   <i class="pi pi-star-fill"></i>
 
                   <span>
-                    {{ product.rating }}
+                    {{ formatter.formatNumber(product.rating, 0, 1) }}
                   </span>
                 </div>
               </td>
 
               <td>
                 <span class="stock-value">
-                  {{ product.stock }}
+                  {{ formatter.formatNumber(product.stock) }}
                 </span>
               </td>
 
@@ -316,7 +321,9 @@
     [draggable]="false"
     [resizable]="false"
     [dismissableMask]="true"
-    [style]="{ width: '850px' }"
+    [style]="{
+      width: '850px',
+    }"
     [breakpoints]="{
       '991px': '92vw',
       '575px': '96vw',
@@ -348,7 +355,9 @@
     [resizable]="false"
     [closable]="!formSubmitting()"
     [dismissableMask]="!formSubmitting()"
-    [style]="{ width: '720px' }"
+    [style]="{
+      width: '720px',
+    }"
     [breakpoints]="{
       '767px': '94vw',
       '575px': '96vw',

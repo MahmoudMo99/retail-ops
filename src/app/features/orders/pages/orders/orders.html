@@ -30,7 +30,7 @@
 
       <div class="orders-toolbar__end">
         <span class="orders-count">
-          {{ filteredOrders().length }}
+          {{ formatter.formatNumber(filteredOrders().length) }}
           {{ 'ORDERS.ORDERS_COUNT' | translate }}
         </span>
 
@@ -167,16 +167,16 @@
               </td>
 
               <td>
-                {{ order.totalProducts }}
+                {{ formatter.formatNumber(order.totalProducts) }}
               </td>
 
               <td>
-                {{ order.totalQuantity }}
+                {{ formatter.formatNumber(order.totalQuantity) }}
               </td>
 
               <td>
                 <strong class="order-total">
-                  {{ formatCurrency(order.discountedTotal) }}
+                  {{ formatter.formatCurrency(order.discountedTotal) }}
                 </strong>
               </td>
 
@@ -234,7 +234,9 @@
   [draggable]="false"
   [resizable]="false"
   [dismissableMask]="true"
-  [style]="{ width: '760px' }"
+  [style]="{
+    width: '760px',
+  }"
   [breakpoints]="{
     '767px': '94vw',
     '575px': '96vw',
@@ -272,7 +274,7 @@
           </span>
 
           <strong>
-            {{ formatCurrency(order.discountedTotal) }}
+            {{ formatter.formatCurrency(order.discountedTotal) }}
           </strong>
         </div>
       </div>
@@ -353,14 +355,14 @@
               </strong>
 
               <span>
-                {{ product.quantity }}
+                {{ formatter.formatNumber(product.quantity) }}
                 ×
-                {{ formatCurrency(product.price) }}
+                {{ formatter.formatCurrency(product.price) }}
               </span>
             </div>
 
             <strong class="order-product__total">
-              {{ formatCurrency(product.discountedTotal ?? product.total) }}
+              {{ formatter.formatCurrency(product.discountedTotal ?? product.total) }}
             </strong>
           </div>
         }

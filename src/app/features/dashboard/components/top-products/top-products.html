@@ -12,6 +12,7 @@
 
     <a routerLink="/products" class="view-all-link">
       {{ 'DASHBOARD.VIEW_ALL' | translate }}
+
       <i class="pi pi-arrow-right"></i>
     </a>
   </header>
@@ -20,7 +21,7 @@
     @for (product of products; track product.id; let rank = $index) {
       <div class="product-item">
         <span class="product-item__rank">
-          {{ rank + 1 }}
+          {{ formatter.formatNumber(rank + 1) }}
         </span>
 
         <div
@@ -42,11 +43,12 @@
 
         <div class="product-item__stats">
           <strong>
-            {{ formatCurrency(product.revenue) }}
+            {{ formatter.formatCurrency(product.revenue, 'USD', 0, 0) }}
           </strong>
 
           <span>
-            {{ product.sales }}
+            {{ formatter.formatNumber(product.sales) }}
+
             {{ 'DASHBOARD.PRODUCTS.SALES' | translate }}
           </span>
         </div>

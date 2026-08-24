@@ -52,7 +52,7 @@
           </span>
 
           <strong>
-            {{ formatCurrency(analytics.kpis.totalRevenue) }}
+            {{ formatter.formatCurrency(analytics.kpis.totalRevenue) }}
           </strong>
 
           <small>
@@ -112,7 +112,7 @@
           </span>
 
           <strong>
-            {{ formatCurrency(analytics.kpis.averageOrderValue) }}
+            {{ formatter.formatCurrency(analytics.kpis.averageOrderValue) }}
           </strong>
 
           <small>
@@ -207,7 +207,7 @@
               </div>
 
               <strong class="top-product__revenue">
-                {{ formatCurrency(product.revenue) }}
+                {{ formatter.formatCurrency(product.revenue) }}
               </strong>
             </div>
           }
@@ -303,7 +303,7 @@
               </strong>
 
               <small>
-                {{ formatCurrency(category.revenue) }}
+                {{ formatter.formatCurrency(category.revenue) }}
                 {{ 'ANALYTICS.BUSINESS_INSIGHTS.REVENUE_GENERATED' | translate }}
               </small>
             </div>

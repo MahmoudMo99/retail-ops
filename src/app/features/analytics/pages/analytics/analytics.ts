@@ -8,6 +8,7 @@ import { InventoryHealthChart } from '../../components/inventory-health-chart/in
 import { OrderStatusChart } from '../../components/order-status-chart/order-status-chart';
 import { AnalyticsData } from '../../models/analytics-data.model';
 import { AnalyticsService } from '../../services/analytics';
+import { FormatterService } from '../../../../core/services/formatter';
 
 @Component({
   selector: 'app-analytics',
@@ -17,6 +18,7 @@ import { AnalyticsService } from '../../services/analytics';
 })
 export class Analytics {
   private readonly analyticsService = inject(AnalyticsService);
+  readonly formatter = inject(FormatterService);
 
   private readonly destroyRef = inject(DestroyRef);
 
@@ -46,13 +48,6 @@ export class Analytics {
 
   constructor() {
     this.loadAnalytics();
-  }
-
-  formatCurrency(value: number): string {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(value);
   }
 
   getStatusKey(status: string): string {

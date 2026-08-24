@@ -12,6 +12,7 @@ import {
   Tooltip,
 } from 'chart.js';
 
+import { FormatterService } from '../../../../core/services/formatter';
 import { AppLanguage, LanguageService } from '../../../../core/services/language';
 import { ResolvedTheme, ThemeService } from '../../../../core/services/theme';
 
@@ -35,16 +36,27 @@ export class RevenueOverview {
   private readonly canvas = viewChild<ElementRef<HTMLCanvasElement>>('chartCanvas');
 
   private readonly themeService = inject(ThemeService);
+
   private readonly languageService = inject(LanguageService);
+
   private readonly document = inject(DOCUMENT);
+
   private readonly destroyRef = inject(DestroyRef);
+
+  readonly formatter = inject(FormatterService);
+
+  readonly totalRevenue = 124560;
+
+  readonly revenueGrowth = 0.125;
 
   private chart?: Chart<'line'>;
 
   constructor() {
     effect(() => {
       const canvas = this.canvas();
+
       const theme = this.themeService.resolvedTheme();
+
       const language = this.languageService.currentLanguage();
 
       if (!canvas) {
@@ -69,19 +81,25 @@ export class RevenueOverview {
     const styles = this.document.defaultView!.getComputedStyle(this.document.documentElement);
 
     const primary = styles.getPropertyValue('--primary').trim();
+
     const textMuted = styles.getPropertyValue('--text-muted').trim();
+
     const border = styles.getPropertyValue('--border-primary').trim();
+
     const surface = styles.getPropertyValue('--surface-primary').trim();
-    const textPrimary = styles.getPropertyValue('--text-primary').trim();
+
     const chartFill = styles.getPropertyValue('--chart-primary-soft').trim();
+
     const fontFamily = styles
       .getPropertyValue(language === 'ar' ? '--font-ar' : '--font-en')
       .trim();
 
     return new Chart(canvas, {
       type: 'line',
+
       data: {
-        labels: this.createLabels(language),
+        labels: this.createLabels(),
+
         datasets: [
           {
             data: [12400, 15800, 14300, 18900, 17600, 21800, 24600],
@@ -98,75 +116,98 @@ export class RevenueOverview {
           },
         ],
       },
+
       options: {
         responsive: true,
         maintainAspectRatio: false,
+
         interaction: {
           intersect: false,
           mode: 'index',
         },
+
         plugins: {
           legend: {
             display: false,
           },
+
           tooltip: {
             displayColors: false,
+
+            rtl: language === 'ar',
+
+            textDirection: language === 'ar' ? 'rtl' : 'ltr',
+
             backgroundColor: theme === 'dark' ? '#252a35' : '#101828',
+
             titleColor: '#ffffff',
+
             bodyColor: '#ffffff',
+
             padding: 12,
+
             cornerRadius: 8,
+
             titleFont: {
               family: fontFamily,
               size: 11,
               weight: 500,
             },
+
             bodyFont: {
               family: fontFamily,
               size: 12,
               weight: 600,
             },
+
             callbacks: {
-              label: (context) => `$${Number(context.raw).toLocaleString()}`,
+              label: (context) => this.formatter.formatCurrency(Number(context.raw), 'USD', 0, 0),
             },
           },
         },
+
         scales: {
           x: {
             border: {
               display: false,
             },
+
             grid: {
               display: false,
             },
+
             ticks: {
               color: textMuted,
+
               font: {
                 family: fontFamily,
                 size: 11,
               },
             },
           },
+
           y: {
             beginAtZero: true,
+
             border: {
               display: false,
             },
+
             grid: {
               color: border,
             },
+
             ticks: {
               color: textMuted,
+
               padding: 8,
+
               font: {
                 family: fontFamily,
                 size: 11,
               },
-              callback: (value) => {
-                const numericValue = Number(value);
 
-                return `$${numericValue / 1000}k`;
-              },
+              callback: (value) => this.formatter.formatCompactNumber(Number(value), 0),
             },
           },
         },
@@ -174,22 +215,20 @@ export class RevenueOverview {
     });
   }
 
-  private createLabels(language: AppLanguage): string[] {
-    const locale = language === 'ar' ? 'ar-EG' : 'en-US';
-
-    const formatter = new Intl.DateTimeFormat(locale, {
-      day: 'numeric',
-      month: 'short',
-    });
-
+  private createLabels(): string[] {
     const today = new Date();
 
-    return Array.from({ length: 7 }, (_, index) => {
-      const date = new Date(today);
+    return Array.from(
+      {
+        length: 7,
+      },
+      (_, index) => {
+        const date = new Date(today);
 
-      date.setDate(today.getDate() - (6 - index) * 5);
+        date.setDate(today.getDate() - (6 - index) * 5);
 
-      return formatter.format(date);
-    });
+        return this.formatter.formatShortDate(date);
+      },
+    );
   }
 }
