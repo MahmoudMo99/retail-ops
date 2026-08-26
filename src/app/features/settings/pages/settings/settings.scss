@@ -37,19 +37,6 @@
   }
 }
 
-.settings-header__eyebrow {
-  display: inline-block;
-
-  margin-bottom: 6px;
-
-  color: var(--primary);
-
-  font-size: 12px;
-  font-weight: 700;
-
-  letter-spacing: 0.04em;
-}
-
 .settings-layout {
   display: grid;
 
@@ -64,6 +51,7 @@
 
 .settings-main,
 .settings-sidebar {
+  width: 100%;
   min-width: 0;
 
   display: flex;
@@ -73,6 +61,7 @@
 }
 
 .settings-card {
+  width: 100%;
   min-width: 0;
 
   padding: 20px;
@@ -645,7 +634,16 @@
   }
 
   .settings-sidebar {
+    width: 100%;
+
     display: flex;
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+  .settings-sidebar > .settings-card {
+    width: 100%;
   }
 }
 
@@ -657,6 +655,8 @@
   }
 
   .settings-card {
+    width: 100%;
+
     padding: 16px;
   }
 

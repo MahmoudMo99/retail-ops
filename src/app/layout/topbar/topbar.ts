@@ -54,6 +54,8 @@ export class Topbar {
 
   readonly profileMenuOpen = signal(false);
 
+  readonly hasScrolled = signal(false);
+
   readonly userInitials = computed(() => {
     const user = this.currentUser();
 
@@ -79,6 +81,8 @@ export class Topbar {
 
         this.closeNotifications();
         this.closeProfileMenu();
+
+        this.hasScrolled.set(false);
       });
   }
 
@@ -151,5 +155,10 @@ export class Topbar {
     this.titleKey.set(route.data['topbarTitle'] ?? 'NAV.DASHBOARD');
 
     this.subtitleKey.set(route.data['topbarSubtitle'] ?? 'TOPBAR.DASHBOARD_SUBTITLE');
+  }
+
+  @HostListener('window:scroll')
+  onWindowScroll(): void {
+    this.hasScrolled.set(window.scrollY > 8);
   }
 }

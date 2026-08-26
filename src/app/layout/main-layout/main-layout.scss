@@ -78,13 +78,25 @@
 
     transform: translateX(-105%);
 
-    transition: transform 220ms ease;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+      transform 220ms ease,
+      visibility 0s linear 220ms;
 
     box-shadow: 16px 0 40px rgb(15 23 42 / 12%);
   }
 
   .sidebar-wrapper--open {
     transform: translateX(0);
+
+    visibility: visible;
+    pointer-events: auto;
+
+    transition:
+      transform 220ms ease,
+      visibility 0s linear 0s;
   }
 
   .sidebar-backdrop {
